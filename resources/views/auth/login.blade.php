@@ -139,6 +139,7 @@
                                 class="text-blue-400 font-medium">
                                 Daftar
                             </a>
+                            
                         </div>
                     </div>
                 </form>
