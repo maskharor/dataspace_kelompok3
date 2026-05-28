@@ -317,10 +317,6 @@
             &copy; 2026 DataSpace — Filkom UB
         </div>
     </footer>
-    <<<<<<< HEAD </body>
-
-        =======
+    </body>
 </body>
->>>>>>> 42b96ccca613ae86195aeaf4017ef158d897d0e7
-
 </html>
