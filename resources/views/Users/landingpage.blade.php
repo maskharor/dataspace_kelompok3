@@ -9,10 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-    <<<<<<< HEAD
-
-    /* Custom Colors untuk menyesuaikan desain Figma/UI */
-    =======>>>>>>>42b96ccca613ae86195aeaf4017ef158d897d0e7 body {
+    body {
         background-color: #0b1120;
     }
 
