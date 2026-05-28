@@ -2,47 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function () {
-    return view('Users.landingpage');
-
-})->name('Users.landingpage');
-
-
-
-Route::middleware('guest')->group(function () {
-
-    Route::get('/login', [AuthController::class, 'login'])
-        ->name('login');
-
-    Route::post('/login', [AuthController::class, 'loginProses'])
-        ->name('login.proses');
-
-    Route::get('/register', [AuthController::class, 'register'])
-        ->name('register');
-
-    Route::post('/register', [AuthController::class, 'registerProses'])
-        ->name('register.proses');
-
-});
-
-
-Route::middleware('auth')->group(function () {
-
-    // DASHBOARD
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
-
-    // LOGOUT
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
-
+    return view('welcome');
 });
