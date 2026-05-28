@@ -9,7 +9,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-    /* Custom Colors untuk menyesuaikan desain Figma/UI */
     body {
         background-color: #0b1120;
     }
@@ -21,8 +20,6 @@
     .text-accent {
         color: #818cf8;
     }
-
-    /* Warna Basis Data */
     </style>
 </head>
 
@@ -48,10 +45,13 @@
         </div>
 
         <div class="hidden md:flex space-x-4 text-sm font-medium">
-            <a href="#"
-                class="px-5 py-2 border border-slate-700 rounded-lg hover:bg-slate-800 transition text-white">Masuk</a>
-            <a href="#"
-                class="px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition shadow-[0_0_15px_rgba(59,130,246,0.3)]">Daftar</a>
+            <a href="{{ route('login') }}"
+                class="px-5 py-2 border border-slate-700 rounded-lg hover:bg-slate-800 transition text-white"> Masuk
+            </a>
+            <a href="{{ route('register') }}"
+                class="px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                Daftar
+            </a>
         </div>
     </nav>
 
@@ -106,7 +106,8 @@
             </div>
             <div
                 class="flex-1 border border-slate-700/50 rounded-xl bg-[#0b1120] flex items-center justify-center text-slate-600 text-sm">
-                [ Area Gambar ERD Diagram ]
+                <img src="{{ asset('images/ERD-dashboard.png') }}" alt="ERD Dashboard"
+                    class="h-full object-contain w-[80%]">
             </div>
         </div>
     </section>
@@ -317,7 +318,7 @@
             &copy; 2026 DataSpace — Filkom UB
         </div>
     </footer>
-
+</body>
 </body>
 
 </html>
