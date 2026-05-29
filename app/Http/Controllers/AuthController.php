@@ -42,8 +42,13 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|min:3|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8'
-        ]);
+            'password' => 'required|min:8|confirmed'
+        ],
+        [
+            'password.confirmed' => 'Konfirmasi kata sandi harus sama',
+            'name.min' => 'Nama terlalu pendek (min 3 karakter)',
+            'name.max' => 'Nama terlalu panjang (maks 255 karakter)',
+        ]); 
 
         User::create([
             'name' => $request->name,

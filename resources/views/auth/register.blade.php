@@ -18,9 +18,9 @@
     </style>
 </head>
 
-<body class="bg-[#020617] overflow-hidden">
+<body class="bg-[#020617] overflow-y-auto overflow-x-hidden min-h-screen">
 
-    <div class="h-screen flex">
+    <div class="min-h-screen flex flex-col lg:flex-row">
 
         <div class="hidden lg:flex w-1/2 relative overflow-hidden">
 
@@ -33,38 +33,38 @@
 
             <div class="absolute inset-0 bg-gradient-to-br from-blue-950/20 via-transparent to-black/50"></div>
 
-            <div class="relative z-10 flex flex-col justify-end p-8 text-white">
+            <div class="relative z-10 flex flex-col justify-end p-6 text-white">
 
-                <h1 class="text-3xl xl:text-4xl font-bold leading-tight mb-3">
+                <h1 class="text-2xl xl:text-3xl font-bold leading-tight mb-2">
                     Mulai Perjalananmu di DataSpace
                 </h1>
 
-                <p class="text-sm xl:text-base text-gray-300 leading-relaxed max-w-lg">
+                <p class="text-[13px] xl:text-sm text-gray-300 leading-relaxed max-w-md">
                     Mari belajar bersama dan pastikan setiap konsep yang kamu pelajari benar-benar dipahami, bukan sekadar dihafalkan
                 </p>
 
             </div>
         </div>
 
-        <div class="w-full lg:w-1/2 flex items-center justify-center bg-[#030817] px-6">
+        <div class="w-full lg:w-1/2 flex items-center justify-center bg-[#030817] px-4 py-6 lg:py-4">
 
-            <div class="w-full max-w-md">
+            <div class="w-full max-w-sm py-2 lg:scale-[0.92] xl:scale-100 origin-center my-auto">
 
-                <div class="mb-7">
+                <div class="mb-4">
 
-                    <h1 class="text-white text-3xl xl:text-4xl font-bold mb-2 leading-tight">
+                    <h1 class="text-white text-2xl xl:text-3xl font-bold mb-1 leading-tight">
                         Selamat Datang di DataSpace
                     </h1>
 
-                    <p class="text-gray-400 text-sm leading-relaxed">
+                    <p class="text-gray-400 text-[13px] leading-relaxed">
                         Daftarkan akunmu untuk melanjutkan proses belajar Basis Data dengan modul dan quiz interaktif
                     </p>
 
                 </div>
 
                 @if($errors->any())
-                <div class="mb-4 bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded-xl text-sm">
-                    <ul class="space-y-1">
+                <div class="mb-2 bg-red-500/20 border border-red-500 text-red-300 px-3 py-2 rounded-xl text-[12px]">
+                    <ul class="space-y-1 list-none">
                         @foreach($errors->all() as $error)
                         <li>• {{ $error }}</li>
                         @endforeach
@@ -74,26 +74,26 @@
 
                 <form method="POST"
                     action="{{ route('register.proses') }}"
-                    class="space-y-4">
+                    class="space-y-2.5">
 
                     @csrf
 
                     <div>
-                        <label class="block text-white text-sm mb-2">
-                            Username
+                        <label class="block text-white text-[13px] mb-[4px]">
+                            Full name
                         </label>
 
                         <input
                             type="text"
                             name="name"
                             value="{{ old('name') }}"
-                            placeholder="Masukkan username"
+                            placeholder="Masukkan nama lengkap"
                             required
-                            class="w-full h-[52px] bg-transparent border border-gray-700 rounded-xl px-5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition">
+                            class="w-full h-[43px] bg-transparent border border-gray-700 rounded-xl px-4 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition">
                     </div>
 
                     <div>
-                        <label class="block text-white text-sm mb-2">
+                        <label class="block text-white text-[13px] mb-[4px]">
                             Email
                         </label>
 
@@ -103,11 +103,11 @@
                             value="{{ old('email') }}"
                             placeholder="Masukkan email"
                             required
-                            class="w-full h-[52px] bg-transparent border border-gray-700 rounded-xl px-5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition">
+                            class="w-full h-[43px] bg-transparent border border-gray-700 rounded-xl px-4 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition">
                     </div>
 
-                    <div> <label class="block text-white text-sm mb-2"> Kata Sandi </label>
-                        <div class="relative"> <input id="password" type="password" name="password" placeholder="Masukkan kata sandi" required minlength="8" class="w-full h-[52px] bg-transparent border border-gray-700 rounded-xl px-5 pr-12 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition"> <button type="button" onclick="togglePassword(this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition">
+                    <div> <label class="block text-white text-[13px] mb-[4px]"> Kata Sandi </label>
+                        <div class="relative"> <input id="password" type="password" name="password" placeholder="Masukkan kata sandi" required minlength="8" class="w-full h-[43px] bg-transparent border border-gray-700 rounded-xl px-4 pr-12 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition"> <button type="button" onclick="togglePassword(this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition">
                                 <svg class="eye-open hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5 c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639 C20.577 16.49 16.64 19.5 12 19.5 c-4.638 0-8.573-3.007-9.964-7.178z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -117,8 +117,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.477 10.488A3 3 0 0012 15a3 3 0 002.522-4.512M6.228 6.228 A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c1.338 0 2.62-.25 3.8-.704M6.228 6.228L3 3m3.228 3.228l3.65 3.65m0 0a3 3 0 014.243 4.243m0 0l3.65 3.65M9.88 9.88l4.24 4.24" />
                                 </svg> </button> </div>
                     </div> 
-                    <div> <label class="block text-white text-sm mb-2"> Konfirmasi Kata Sandi </label>
-                        <div class="relative"> <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Ulangi kata sandi" required minlength="8" class="w-full h-[52px] bg-transparent border border-gray-700 rounded-xl px-5 pr-12 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition"> <button type="button" onclick="togglePassword(this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition"> 
+                    <div> <label class="block text-white text-[13px] mb-[4px]"> Konfirmasi Kata Sandi </label>
+                        <div class="relative"> <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Ulangi kata sandi" required minlength="8" class="w-full h-[43px] bg-transparent border border-gray-700 rounded-xl px-4 pr-12 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition"> <button type="button" onclick="togglePassword(this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition"> 
                                 <svg class="eye-open hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5 c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639 C20.577 16.49 16.64 19.5 12 19.5 c-4.638 0-8.573-3.007-9.964-7.178z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -131,11 +131,11 @@
 
                     <button
                         type="submit"
-                        class="w-full h-[52px] bg-[#5B9CFF] hover:bg-[#4d8ff5] text-black font-semibold rounded-xl transition">
+                        class="w-full h-[43px] bg-[#5B9CFF] hover:bg-[#4d8ff5] text-black font-semibold rounded-xl transition">
                         Daftar
                     </button>
 
-                    <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center justify-between text-[12px] pt-1">
                         <a href="#"
                             class="text-gray-300 hover:text-white underline">
                             Lupa Password?
