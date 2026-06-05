@@ -54,3 +54,7 @@ Route::get('/dashboard', function () {
 Route::get('/pengguna', function () {
     return view('Admin.pengguna');
 });
+
+Route::get('/pengaturan', function () {
+    return view('Admin.pengaturan');
+});
