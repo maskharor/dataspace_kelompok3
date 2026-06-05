@@ -50,3 +50,7 @@ Route::get('/modul', function () {
 Route::get('/dashboard', function () {
     return view('Admin.dashboard');
 });
+
+Route::get('/pengguna', function () {
+    return view('Admin.pengguna');
+});
