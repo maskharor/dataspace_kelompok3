@@ -46,3 +46,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/modul', function () {
     return view('Admin.Modul');
 });
+
+Route::get('/dashboard', function () {
+    return view('Admin.dashboard');
+});
