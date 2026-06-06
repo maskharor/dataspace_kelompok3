@@ -5,13 +5,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-
-    if(Auth::check()){
-        return redirect()->route('dashboard');
-    }
-    return view('Users.landingpage');
-
-})->name('Users.landingpage');
+    return view('welcome');
+});
 
 Route::middleware('guest')->group(function () {
 
