@@ -25,35 +25,7 @@
 
 <body class="text-slate-300 font-sans antialiased overflow-x-hidden">
 
-    <nav class="container mx-auto px-6 lg:px-12 py-6 flex justify-between items-center">
-        <div class="flex items-center space-x-3 text-white font-bold text-xl cursor-pointer">
-            <div class="w-7 h-7 bg-blue-500 rounded flex items-center justify-center">
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4">
-                    </path>
-                </svg>
-            </div>
-            <span>DataSpace</span>
-        </div>
-
-        <div class="hidden md:flex space-x-8 text-sm font-medium">
-            <a href="#" class="text-blue-400">Beranda</a>
-            <a href="#" class="hover:text-white transition">Materi</a>
-            <a href="#" class="hover:text-white transition">Quiz</a>
-        </div>
-
-        <div class="hidden md:flex space-x-4 text-sm font-medium">
-            <a href="{{ route('login') }}"
-                class="px-5 py-2 border border-slate-700 rounded-lg hover:bg-slate-800 transition text-white"> Masuk
-            </a>
-            <a href="{{ route('register') }}"
-                class="px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-                Daftar
-            </a>
-        </div>
-    </nav>
+    <x-navbar />
 
     <section class="container mx-auto px-6 lg:px-12 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
         <div class="space-y-8">
@@ -275,50 +247,8 @@
         </button>
     </section>
 
-    <footer class="border-t border-slate-800/80 bg-[#0b1120] mt-12 pt-16 pb-8">
-        <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-            <div class="col-span-1 md:col-span-1">
-                <div class="flex items-center space-x-2 text-white font-bold text-lg mb-4">
-                    <div class="w-5 h-5 bg-blue-500 rounded flex items-center justify-center">
-                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4">
-                            </path>
-                        </svg>
-                    </div>
-                    <span>DataSpace</span>
-                </div>
-                <p class="text-sm text-slate-500">Platform interaktif untuk belajar basis data</p>
-            </div>
-
-            <div>
-                <h5 class="text-white font-medium mb-4">Pembelajaran</h5>
-                <ul class="text-sm text-slate-500 space-y-3">
-                    <li><a href="#" class="hover:text-slate-300">Materi</a></li>
-                    <li><a href="#" class="hover:text-slate-300">Quiz</a></li>
-                    <li><a href="#" class="hover:text-slate-300">Beranda</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h5 class="text-white font-medium mb-4">Tentang</h5>
-                <ul class="text-sm text-slate-500 space-y-3">
-                    <li><a href="#" class="hover:text-slate-300">Tim</a></li>
-                    <li><a href="#" class="hover:text-slate-300">Kebijakan Privasi</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h5 class="text-white font-medium mb-4">Kontak</h5>
-                <p class="text-sm text-slate-500">Filkom Universitas Brawijaya</p>
-            </div>
-        </div>
-
-        <div class="container mx-auto px-6 lg:px-12 text-center text-xs text-slate-600">
-            &copy; 2026 DataSpace — Filkom UB
-        </div>
-    </footer>
+    <x-footer />
 </body>
-</body>
+
 
 </html>

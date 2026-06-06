@@ -22,6 +22,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'registerProses'])
         ->name('register.proses');
 
+    Route::get('/materi', function () {
+        return view('materi.index');
+    })->name('materi.index');
+
 });
 
 
