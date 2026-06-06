@@ -33,8 +33,8 @@ Route::middleware('auth')->group(function () {
 
     // DASHBOARD
     Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+        return view('user.dashboard');
+    });
 
     // LOGOUT
     Route::post('/logout', [AuthController::class, 'logout'])
