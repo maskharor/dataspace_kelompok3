@@ -27,6 +27,18 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moduls');
+       Schema::table('moduls', function (Blueprint $table) {
+            $table->dropForeign(['created_by']);
+            $table->dropForeign(['reviewed_by']);
+
+            $table->dropColumn([
+                'video_path',
+                'status',
+                'created_by',
+                'reviewed_by',
+                'catatan_revisi',
+                'reviewed_at'
+            ]);
+        });
     }
 };

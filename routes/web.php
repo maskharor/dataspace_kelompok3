@@ -5,13 +5,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-
-    if(Auth::check()){
-        return redirect()->route('dashboard');
-    }
-    return view('Users.landingpage');
-
-})->name('Users.landingpage');
+    return view('welcome');
+});
 
 Route::middleware('guest')->group(function () {
 
@@ -26,6 +21,10 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/register', [AuthController::class, 'registerProses'])
         ->name('register.proses');
+
+    Route::get('/materi', function () {
+        return view('materi.index');
+    })->name('materi.index');
 
 });
 
