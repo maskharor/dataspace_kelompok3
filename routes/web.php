@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MateriController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -21,10 +22,13 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/register', [AuthController::class, 'registerProses'])
         ->name('register.proses');
+    
+     Route::get('/materi', [MateriController::class, 'index'])
+    ->name('materi.index');
 
-    Route::get('/materi', function () {
-        return view('materi.index');
-    })->name('materi.index');
+    Route::get('/materi/{id}', [MateriController::class, 'show'])
+    ->name('materi.show');
+
 
 });
 

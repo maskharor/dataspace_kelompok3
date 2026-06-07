@@ -1,3 +1,8 @@
+@php
+    $currentClass = 'text-blue-400';
+    $defaultClass = 'text-slate-400 hover:text-slate-300';
+@endphp
+
 <nav class="container mx-auto px-6 lg:px-12 py-6 flex justify-between items-center">
 
     <div class="flex items-center space-x-3 text-white font-bold text-xl">
@@ -18,17 +23,17 @@
     </div>
 
     <div class="hidden md:flex space-x-8 text-sm font-medium">
-        <a href="{{ url('/') }}" class="text-blue-400">
+        <a href="{{ url('/') }}" class="{{ request()->is('/') ? $currentClass : $defaultClass }}">
             Beranda
         </a>
-
-        <a href="{{ route('materi.index') }}" class="hover:text-slate-300">
+        <a href="{{ route('materi.index') }}" class="{{ request()->routeIs('materi.*') ? $currentClass : $defaultClass }}">
             Materi
         </a>
-
-        <a href="#" class="hover:text-white transition">
+       
+        <a href="#" class="{{ request()->routeIs('quiz.*') ? $currentClass : $defaultClass }}">
             Quiz
         </a>
+
     </div>
 
     @auth
