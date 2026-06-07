@@ -32,9 +32,9 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
 
     // DASHBOARD
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+    Route::get('users/dashboard', function () {
+        return view('User.dashboard');
+    });
 
     // LOGOUT
     Route::post('/logout', [AuthController::class, 'logout'])
