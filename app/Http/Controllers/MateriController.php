@@ -46,4 +46,19 @@ class MateriController extends Controller
     //         compact('module')
     //     );
     // }
+
+    public function show($id, Request $request)
+    {
+        $module = Modul::findOrFail($id);
+
+        $section = $request->get('section', 'entitas');
+
+        return view(
+            'users.detailMateri',
+            compact(
+                'module',
+                'section'
+            )
+        );
+    }
 }

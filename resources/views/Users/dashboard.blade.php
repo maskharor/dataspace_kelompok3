@@ -27,36 +27,7 @@
 <body class="text-gray-300 font-sans antialiased min-h-screen flex flex-col">
 
     <!-- TOP NAVBAR -->
-    <header class="h-20 flex items-center justify-between px-8 shrink-0 bg-[#0d1117] border-b border-line">
-        <!-- Logo -->
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center text-white font-bold">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4">
-                    </path>
-                </svg>
-            </div>
-            <h1 class="text-white font-bold text-xl tracking-wide">DataSpace</h1>
-        </div>
-
-        <!-- Center Nav -->
-        <nav class="flex items-center gap-8">
-            <a href="#" class="text-blue-500 font-medium transition">Beranda</a>
-            <a href="#" class="text-gray-400 hover:text-gray-200 font-medium transition">Materi</a>
-            <a href="#" class="text-gray-400 hover:text-gray-200 font-medium transition">Quiz</a>
-        </nav>
-
-        <!-- User Profile -->
-        <div class="flex items-center gap-3">
-            <span class="text-gray-200 font-medium text-sm">Rasya Fariz</span>
-            <div
-                class="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-500 flex items-center justify-center overflow-hidden">
-                <!-- Placeholder Avatar -->
-                <span class="text-xl">🧑‍💻</span>
-            </div>
-        </div>
-    </header>
+   @include('components.navbar')
 
     <!-- MAIN CONTENT -->
     <main class="flex-1 w-full max-w-6xl mx-auto py-10 px-6">
@@ -64,8 +35,9 @@
         <!-- Greeting -->
         <div class="mb-10">
             <h2 class="text-4xl font-bold text-white mb-2 flex items-center gap-2">
-                Halo, Rasya! <span class="text-4xl">👋</span>
+                Halo, {{ Auth::user()->name }}! <span class="text-4xl">👋</span>
             </h2>
+
             <p class="text-gray-400">Lanjutkan belajarmu hari ini</p>
         </div>
 
@@ -147,13 +119,20 @@
                         </div>
                     </div>
                 </div>
-                <button
+                <a href="{{ route('materi.show', 6) }}"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition whitespace-nowrap">
-                    Lanjutkan <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+
+                    Lanjutkan
+
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3">
+                        </path>
                     </svg>
-                </button>
+
+                </a>
             </div>
         </div>
 

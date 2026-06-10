@@ -22,9 +22,19 @@ class AuthController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
+        
         if (Auth::attempt($credentials)) {
+
             $request->session()->regenerate();
-            return redirect()->route('dashboard');
+
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+            else if (Auth::user()->role === 'dosen') {
+                return redirect()->route('Instructor.dashboard');
+            }
+
+            return redirect()->route('home');
         }
 
         return back()->withErrors([
@@ -66,6 +76,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }

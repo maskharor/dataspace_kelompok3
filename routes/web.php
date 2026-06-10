@@ -3,11 +3,31 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MateriController;
-use Illuminate\Support\Facades\Auth;
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC / GUEST
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| MATERI (BISA DILIHAT SEMUA)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/materi', [MateriController::class, 'index'])
+    ->name('materi.index');
+
+/*
+|--------------------------------------------------------------------------
+| GUEST ONLY
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('guest')->group(function () {
 
@@ -22,46 +42,63 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/register', [AuthController::class, 'registerProses'])
         ->name('register.proses');
-    
-     Route::get('/materi', [MateriController::class, 'index'])
-    ->name('materi.index');
-
-    Route::get('/materi/{id}', [MateriController::class, 'show'])
-    ->name('materi.show');
-
-
 });
 
+/*
+|--------------------------------------------------------------------------
+| AUTH USER
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->group(function () {
 
-    // DASHBOARD
-    Route::get('users/dashboard', function () {
-        return view('User.dashboard');
-    });
+    /*
+    | Dashboard User
+    */
+    Route::get('/dashboard', function () {
+        return view('Users.dashboard');
+    })->name('dashboard');
 
-    // LOGOUT
+    /*
+    | Detail Materi
+    */
+    Route::get('/materi/{id}', [MateriController::class, 'show'])
+        ->name('materi.show');
+
+    /*
+    | Logout
+    */
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
-
 });
 
-Route::get('/modul', function () {
-    return view('Admin.Modul');
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('admin')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('Admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/modul', function () {
+        return view('Admin.Modul');
+    })->name('admin.modul');
+
+    Route::get('/pengguna', function () {
+        return view('Admin.pengguna');
+    })->name('admin.pengguna');
+
+    Route::get('/pengaturan', function () {
+        return view('Admin.pengaturan');
+    })->name('admin.pengaturan');
 });
 
-Route::get('/dashboard', function () {
-    return view('Admin.dashboard');
-});
-
-Route::get('/pengguna', function () {
-    return view('Admin.pengguna');
-});
-
-Route::get('/pengaturan', function () {
-    return view('Admin.pengaturan');
-});
-
-Route::get('dosen/dashboard', function () {
-    return view('Instructor.dashboard');
+Route::prefix('dosen')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('Instructor.dashboard');
+    })->name('Instructor.dashboard');
 });
