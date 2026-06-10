@@ -61,3 +61,7 @@ Route::get('/pengguna', function () {
 Route::get('/pengaturan', function () {
     return view('Admin.pengaturan');
 });
+
+Route::get('dosen/dashboard', function () {
+    return view('Instructor.dashboard');
+});
