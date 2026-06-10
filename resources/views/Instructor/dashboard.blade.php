@@ -64,9 +64,9 @@
         <div class="p-4">
             <div class="bg-[#1e232d] rounded-xl p-3 flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-black font-bold">
-                    A</div>
+                    J</div>
                 <div class="overflow-hidden">
-                    <p class="text-white text-sm font-semibold truncate">Instructor</p>
+                    <p class="text-white text-sm font-semibold truncate">Mr. Jefry</p>
                     <p class="text-gray-500 text-xs truncate">instructor@dataspace.id</p>
                 </div>
             </div>
@@ -106,7 +106,6 @@
                             <h3 class="text-3xl font-bold text-white">2</h3>
                         </div>
                     </div>
-
                     <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 flex items-center gap-5">
                         <div
                             class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
@@ -120,7 +119,6 @@
                             <h3 class="text-3xl font-bold text-white">1</h3>
                         </div>
                     </div>
-
                     <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 flex items-center gap-5">
                         <div
                             class="w-14 h-14 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
@@ -136,7 +134,7 @@
                     </div>
                 </div>
 
-                <div class="bg-[#14171d] border border-gray-800 rounded-2xl overflow-hidden">
+                <div class="bg-[#14171d] border border-gray-800 rounded-2xl mb-10 pb-10">
                     <div class="px-8 py-6 border-b border-gray-800">
                         <h3 class="text-lg font-bold text-white">Daftar Modul</h3>
                     </div>
@@ -174,14 +172,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 hover:bg-emerald-500/20 transition whitespace-nowrap shrink-0">
-                                Dipublikasi
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
+
+                            <div class="relative inline-block text-left dropdown-container">
+                                <button type="button"
+                                    class="dropdown-button flex items-center justify-between w-36 px-4 py-2 rounded-full text-sm font-medium border transition whitespace-nowrap shrink-0 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20">
+                                    <span class="dropdown-text">Dipublikasi</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+
+                                <div
+                                    class="dropdown-menu hidden absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-[#1e232d] border border-gray-700 shadow-xl overflow-hidden z-20">
+                                    <ul class="py-1 text-sm text-gray-300">
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-emerald-400 transition"
+                                                data-value="Dipublikasi">Dipublikasi</button></li>
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-yellow-400 transition"
+                                                data-value="Draft">Draft</button></li>
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-red-400 transition"
+                                                data-value="Ditolak">Ditolak</button></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                         <div
@@ -215,14 +231,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 hover:bg-yellow-500/20 transition whitespace-nowrap shrink-0">
-                                Draft
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
+
+                            <div class="relative inline-block text-left dropdown-container">
+                                <button type="button"
+                                    class="dropdown-button flex items-center justify-between w-36 px-4 py-2 rounded-full text-sm font-medium border transition whitespace-nowrap shrink-0 bg-yellow-500/10 text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/20">
+                                    <span class="dropdown-text">Draft</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+
+                                <div
+                                    class="dropdown-menu hidden absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-[#1e232d] border border-gray-700 shadow-xl overflow-hidden z-20">
+                                    <ul class="py-1 text-sm text-gray-300">
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-emerald-400 transition"
+                                                data-value="Dipublikasi">Dipublikasi</button></li>
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-yellow-400 transition"
+                                                data-value="Draft">Draft</button></li>
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-red-400 transition"
+                                                data-value="Ditolak">Ditolak</button></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                         <div
@@ -237,7 +271,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-xl font-medium text-white mb-1">Tailwind CSS Lanjutan</h4>
+                                    <h4 class="text-xl font-medium text-white mb-1">Tailwind CSS Dasar</h4>
                                     <p class="text-gray-400 text-sm mb-3">Kuasai framework CSS utility-first untuk
                                         pengembangan UI yang cepat.</p>
                                     <div class="flex items-center gap-4 text-sm">
@@ -256,14 +290,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20 transition whitespace-nowrap shrink-0">
-                                Ditolak
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
+
+                            <div class="relative inline-block text-left dropdown-container">
+                                <button type="button"
+                                    class="dropdown-button flex items-center justify-between w-36 px-4 py-2 rounded-full text-sm font-medium border transition whitespace-nowrap shrink-0 bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20">
+                                    <span class="dropdown-text">Ditolak</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+
+                                <div
+                                    class="dropdown-menu hidden absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-[#1e232d] border border-gray-700 shadow-xl overflow-hidden z-20">
+                                    <ul class="py-1 text-sm text-gray-300">
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-emerald-400 transition"
+                                                data-value="Dipublikasi">Dipublikasi</button></li>
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-yellow-400 transition"
+                                                data-value="Draft">Draft</button></li>
+                                        <li><button type="button"
+                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-red-400 transition"
+                                                data-value="Ditolak">Ditolak</button></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -273,6 +325,67 @@
         </div>
     </main>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Mapping class warna untuk Tailwind CSS
+        const colorClasses = {
+            'Dipublikasi': 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20',
+            'Draft': 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/20',
+            'Ditolak': 'bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20'
+        };
+
+        const baseBtnClasses =
+            'dropdown-button flex items-center justify-between w-36 px-4 py-2 rounded-full text-sm font-medium border transition whitespace-nowrap shrink-0';
+
+        const dropdownContainers = document.querySelectorAll('.dropdown-container');
+
+        dropdownContainers.forEach(container => {
+            const button = container.querySelector('.dropdown-button');
+            const menu = container.querySelector('.dropdown-menu');
+            const textSpan = button.querySelector('.dropdown-text');
+            const items = container.querySelectorAll('.dropdown-item');
+
+            // Saat Tombol Diklik (Buka/Tutup Menu)
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                // Tutup dropdown lain yang sedang terbuka
+                document.querySelectorAll('.dropdown-menu').forEach(m => {
+                    if (m !== menu) m.classList.add('hidden');
+                });
+
+                // Toggle menu ini
+                menu.classList.toggle('hidden');
+            });
+
+            // Saat Item Menu Dipilih
+            items.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+
+                    const selectedValue = item.getAttribute('data-value');
+
+                    // 1. Ganti Text di Tombol
+                    textSpan.textContent = selectedValue;
+
+                    // 2. Ganti Warna Background & Text sesuai status
+                    button.className =
+                        `${baseBtnClasses} ${colorClasses[selectedValue]}`;
+
+                    // 3. Sembunyikan Menu
+                    menu.classList.add('hidden');
+                });
+            });
+        });
+
+        // Tutup dropdown kalau area di luar diklik
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.add('hidden');
+            });
+        });
+    });
+    </script>
 </body>
 
 </html>
