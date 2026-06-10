@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class ModuleSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         // seeder dummy
-        DB::table('moduls')->insert([
+        $modules = [
             [
                 'judul' => 'Pengenalan Basis Data',
                 'deskripsi' => 'Memahami konsep dasar basis data dan DBMS.',
@@ -88,7 +88,16 @@ class ModuleSeeder extends Seeder
                 'reviewed_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
-        ]);
+            ],
+        ];
+
+        $availableColumns = array_flip(Schema::getColumnListing('moduls'));
+
+        foreach ($modules as $module) {
+            DB::table('moduls')->updateOrInsert(
+                ['judul' => $module['judul']],
+                array_intersect_key($module, $availableColumns)
+            );
+        }
     }
 }

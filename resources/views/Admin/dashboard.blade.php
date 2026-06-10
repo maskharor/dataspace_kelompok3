@@ -1,4 +1,3 @@
-```
 <!DOCTYPE html>
 <html lang="id">
 
@@ -16,6 +15,30 @@
 </head>
 
 <body class="bg-[#0f1115] text-gray-300 font-sans antialiased flex h-screen overflow-hidden">
+    @php
+        $admin = Auth::user();
+        $adminInitial = strtoupper(substr($admin->name ?? 'A', 0, 1));
+        $kategoriStyles = [
+            'pemula' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+            'menengah' => 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+            'lanjut' => 'bg-red-500/10 text-red-400 border-red-500/20',
+        ];
+        $statusStyles = [
+            'published' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+            'draft' => 'bg-gray-500/10 text-gray-400 border-gray-600/30',
+            'rejected' => 'bg-red-500/10 text-red-400 border-red-500/20',
+        ];
+        $statusLabels = [
+            'published' => 'Dipublikasi',
+            'draft' => 'Draft',
+            'rejected' => 'Ditolak',
+        ];
+        $moduleIcons = [
+            'pemula' => '🗄️',
+            'menengah' => '📊',
+            'lanjut' => '⚙️',
+        ];
+    @endphp
 
     <aside class="w-64 bg-[#14171d] border-r border-gray-800 flex flex-col justify-between">
         <div>
@@ -81,10 +104,10 @@
         <div class="p-4">
             <div class="bg-[#1e232d] rounded-xl p-3 flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-black font-bold">
-                    A</div>
+                    {{ $adminInitial }}</div>
                 <div class="overflow-hidden">
-                    <p class="text-white text-sm font-semibold truncate">Admin</p>
-                    <p class="text-gray-500 text-xs truncate">admin@dataspace.id</p>
+                    <p class="text-white text-sm font-semibold truncate">{{ $admin->name }}</p>
+                    <p class="text-gray-500 text-xs truncate">{{ $admin->email }}</p>
                 </div>
             </div>
         </div>
@@ -116,9 +139,9 @@
                             </path>
                         </svg>
                     </div>
-                    <h3 class="text-4xl font-bold text-blue-400 mb-1">6</h3>
+                    <h3 class="text-4xl font-bold text-blue-400 mb-1">{{ $stats['total_modul'] }}</h3>
                     <p class="text-gray-300 font-medium">Total Modul</p>
-                    <p class="text-gray-500 text-sm mt-1">2 draft</p>
+                    <p class="text-gray-500 text-sm mt-1">{{ $stats['draft_modul'] }} draft</p>
                 </div>
                 <div class="bg-gradient-to-br from-[#1e232d] to-[#14171d] p-6 rounded-2xl border border-gray-800">
                     <div
@@ -129,9 +152,9 @@
                             </path>
                         </svg>
                     </div>
-                    <h3 class="text-4xl font-bold text-purple-400 mb-1">128</h3>
+                    <h3 class="text-4xl font-bold text-purple-400 mb-1">{{ $stats['pengguna'] }}</h3>
                     <p class="text-gray-300 font-medium">Pengguna</p>
-                    <p class="text-gray-500 text-sm mt-1">+12 minggu ini</p>
+                    <p class="text-gray-500 text-sm mt-1">+{{ $stats['pengguna_minggu_ini'] }} minggu ini</p>
                 </div>
                 <div class="bg-gradient-to-br from-[#1e232d] to-[#14171d] p-6 rounded-2xl border border-gray-800">
                     <div
@@ -142,9 +165,9 @@
                             </path>
                         </svg>
                     </div>
-                    <h3 class="text-4xl font-bold text-emerald-400 mb-1">24</h3>
+                    <h3 class="text-4xl font-bold text-emerald-400 mb-1">{{ $stats['kuis'] }}</h3>
                     <p class="text-gray-300 font-medium">Kuis Dibuat</p>
-                    <p class="text-gray-500 text-sm mt-1">6 modul aktif</p>
+                    <p class="text-gray-500 text-sm mt-1">{{ $stats['modul_aktif'] }} modul aktif</p>
                 </div>
                 <div class="bg-gradient-to-br from-[#1e232d] to-[#14171d] p-6 rounded-2xl border border-gray-800">
                     <div
@@ -154,7 +177,7 @@
                                 d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                         </svg>
                     </div>
-                    <h3 class="text-4xl font-bold text-yellow-400 mb-1">74%</h3>
+                    <h3 class="text-4xl font-bold text-yellow-400 mb-1">{{ $stats['avg_skor'] }}%</h3>
                     <p class="text-gray-300 font-medium">Avg. Skor</p>
                     <p class="text-gray-500 text-sm mt-1">dari semua kuis</p>
                 </div>
@@ -181,153 +204,65 @@
                             </tr>
                         </thead>
                         <tbody class="text-sm">
-                            <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition">
-                                <td class="py-4 px-6 flex items-center gap-3 text-white">
-                                    <span class="text-xl">🗄️</span> Pengenalan Basis Data
-                                </td>
-                                <td class="py-4 px-6">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Pemula</span>
-                                </td>
-                                <td class="py-4 px-6 text-gray-300">98</td>
-                                <td class="py-4 px-6">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Dipublikasi</span>
-                                </td>
-                                <td class="py-4 px-6 flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                            </path>
-                                        </svg></button>
-                                    <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                            </path>
-                                        </svg></button>
-                                    <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                            </path>
-                                        </svg></button>
-                                </td>
-                            </tr>
-
-                            <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition">
-                                <td class="py-4 px-6 flex items-center gap-3 text-white">
-                                    <span class="text-xl">📊</span> Model Relasional
-                                </td>
-                                <td class="py-4 px-6">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Pemula</span>
-                                </td>
-                                <td class="py-4 px-6 text-gray-300">75</td>
-                                <td class="py-4 px-6">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Dipublikasi</span>
-                                </td>
-                                <td class="py-4 px-6 flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                            </path>
-                                        </svg></button>
-                                    <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                            </path>
-                                        </svg></button>
-                                    <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                            </path>
-                                        </svg></button>
-                                </td>
-                            </tr>
-
-                            <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition">
-                                <td class="py-4 px-6 flex items-center gap-3 text-white">
-                                    <span class="text-xl">🔗</span> Entity Relationship Diagram
-                                </td>
-                                <td class="py-4 px-6">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Menengah</span>
-                                </td>
-                                <td class="py-4 px-6 text-gray-300">61</td>
-                                <td class="py-4 px-6">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Dipublikasi</span>
-                                </td>
-                                <td class="py-4 px-6 flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                            </path>
-                                        </svg></button>
-                                    <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                            </path>
-                                        </svg></button>
-                                    <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                            </path>
-                                        </svg></button>
-                                </td>
-                            </tr>
-
-                            <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition">
-                                <td class="py-4 px-6 flex items-center gap-3 text-white">
-                                    <span class="text-xl">💠</span> Enhanced ERD (EERD)
-                                </td>
-                                <td class="py-4 px-6">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Menengah</span>
-                                </td>
-                                <td class="py-4 px-6 text-gray-300">34</td>
-                                <td class="py-4 px-6">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium bg-gray-500/10 text-gray-400 border border-gray-600/30">Draft</span>
-                                </td>
-                                <td class="py-4 px-6 flex items-center justify-end gap-3 text-gray-400">
-                                    <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                            </path>
-                                        </svg></button>
-                                    <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                            </path>
-                                        </svg></button>
-                                    <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                            </path>
-                                        </svg></button>
-                                </td>
-                            </tr>
+                            @forelse($moduls as $modul)
+                                @php
+                                    $kategori = $modul->kategori ?? 'pemula';
+                                    $status = $modul->status ?? 'published';
+                                    $kategoriClass = $kategoriStyles[$kategori] ?? $kategoriStyles['pemula'];
+                                    $statusClass = $statusStyles[$status] ?? $statusStyles['draft'];
+                                    $statusLabel = $statusLabels[$status] ?? ucfirst($status);
+                                    $moduleIcon = $moduleIcons[$kategori] ?? '🗄️';
+                                @endphp
+                                <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition">
+                                    <td class="py-4 px-6 flex items-center gap-3 text-white">
+                                        <span class="text-xl">{{ $moduleIcon }}</span> {{ $modul->judul }}
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <span
+                                            class="px-3 py-1 rounded-full text-xs font-medium border {{ $kategoriClass }}">{{ ucfirst($kategori) }}</span>
+                                    </td>
+                                    <td class="py-4 px-6 text-gray-300">{{ $modul->peserta_count }}</td>
+                                    <td class="py-4 px-6">
+                                        <span
+                                            class="px-3 py-1 rounded-full text-xs font-medium border {{ $statusClass }}">{{ $statusLabel }}</span>
+                                    </td>
+                                    <td class="py-4 px-6 flex items-center justify-end gap-3 text-gray-400">
+                                        <button class="btn-view hover:text-white transition"
+                                            data-title="{{ $modul->judul }}"
+                                            data-category="{{ ucfirst($kategori) }}"
+                                            data-description="{{ $modul->deskripsi ?? 'Belum ada deskripsi.' }}"><svg class="w-5 h-5"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                </path>
+                                            </svg></button>
+                                        <button class="btn-edit hover:text-blue-400 transition"
+                                            data-title="{{ $modul->judul }}"
+                                            data-category="{{ ucfirst($kategori) }}"
+                                            data-description="{{ $modul->deskripsi ?? '' }}"><svg class="w-5 h-5"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                                </path>
+                                            </svg></button>
+                                        <button class="btn-hapus hover:text-red-400 transition"
+                                            data-title="{{ $modul->judul }}"><svg class="w-5 h-5"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                </path>
+                                            </svg></button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="py-10 px-6 text-center text-gray-500">
+                                        Belum ada modul di database.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -353,21 +288,18 @@
                 <div class="p-6 space-y-4">
                     <div>
                         <p class="text-sm text-gray-500 mb-1">Judul Modul</p>
-                        <p class="text-white font-medium">Pengenalan Basis Data</p>
+                        <p id="viewModulTitle" class="text-white font-medium">-</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 mb-1">Kategori</p>
                         <div class="flex gap-2">
-                            <span
-                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">database</span>
-                            <span
-                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">dasar</span>
+                            <span id="viewModulCategory"
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">-</span>
                         </div>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 mb-1">Deskripsi Singkat</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Modul ini berisi materi dasar-dasar pengenalan
-                            basis data relasional untuk pemula.</p>
+                        <p id="viewModulDescription" class="text-gray-300 text-sm leading-relaxed">-</p>
                     </div>
                 </div>
                 <div class="p-6 border-t border-gray-800 flex justify-end bg-[#181b22] rounded-b-2xl">
@@ -396,18 +328,18 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1.5">Judul Modul <span
                                     class="text-red-400">*</span></label>
-                            <input type="text" value="Pengenalan Basis Data"
+                            <input id="editModulTitle" type="text" value=""
                                 class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1.5">Kategori</label>
-                            <input type="text" value="database, dasar"
+                            <input id="editModulCategory" type="text" value=""
                                 class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1.5">Deskripsi Singkat</label>
-                            <textarea rows="3"
-                                class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition resize-none">Modul ini berisi materi dasar-dasar pengenalan basis data relasional untuk pemula.</textarea>
+                            <textarea id="editModulDescription" rows="3"
+                                class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition resize-none"></textarea>
                         </div>
                     </form>
                 </div>
@@ -433,7 +365,7 @@
                     </svg>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Hapus Modul?</h3>
-                <p class="text-gray-400 text-sm mb-6">Apakah Anda yakin ingin menghapus modul ini? Semua materi di
+                <p id="hapusModulDescription" class="text-gray-400 text-sm mb-6">Apakah Anda yakin ingin menghapus modul ini? Semua materi di
                     dalamnya akan ikut terhapus dan tidak dapat dikembalikan.</p>
                 <div class="flex justify-center gap-3">
                     <button type="button"
@@ -472,15 +404,43 @@
             }, 300);
         }
 
+        function getModuleData(button) {
+            return {
+                title: button.dataset.title || '-',
+                category: button.dataset.category || '-',
+                description: button.dataset.description || 'Belum ada deskripsi.',
+            };
+        }
+
         // 2. Tombol Aksi di dalam Tabel
         document.querySelectorAll('.btn-view').forEach(btn => {
-            btn.addEventListener('click', () => openModal('viewModulModal'));
+            btn.addEventListener('click', () => {
+                const module = getModuleData(btn);
+
+                document.getElementById('viewModulTitle').textContent = module.title;
+                document.getElementById('viewModulCategory').textContent = module.category;
+                document.getElementById('viewModulDescription').textContent = module.description;
+                openModal('viewModulModal');
+            });
         });
         document.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', () => openModal('editModulModal'));
+            btn.addEventListener('click', () => {
+                const module = getModuleData(btn);
+
+                document.getElementById('editModulTitle').value = module.title;
+                document.getElementById('editModulCategory').value = module.category;
+                document.getElementById('editModulDescription').value = module.description;
+                openModal('editModulModal');
+            });
         });
         document.querySelectorAll('.btn-hapus').forEach(btn => {
-            btn.addEventListener('click', () => openModal('hapusModulModal'));
+            btn.addEventListener('click', () => {
+                const module = getModuleData(btn);
+
+                document.getElementById('hapusModulDescription').textContent =
+                    `Apakah Anda yakin ingin menghapus modul "${module.title}"? Semua materi di dalamnya akan ikut terhapus dan tidak dapat dikembalikan.`;
+                openModal('hapusModulModal');
+            });
         });
 
         // 3. Logika Penutup untuk SEMUA Modal
@@ -504,4 +464,4 @@
     </script>
 </body>
 
-</html>```
+</html>
