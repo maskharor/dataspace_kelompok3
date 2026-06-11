@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Soal;
 use App\Models\RiwayatKuis;
+use App\Models\Modul;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 
 class QuizController extends Controller
 {
@@ -104,6 +104,41 @@ class QuizController extends Controller
         ]);
 
         return redirect()->route('quiz', session('modul_id'));
+    }
+
+    public function list(Request $request)
+    {
+        $query = Modul::query()
+            ->whereHas('soals');
+
+        // Search
+        if ($request->filled('search')) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter kategori
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        // Ambil modul yang punya soal + jumlah soalnya
+        $modules = $query->withCount('soals')
+            ->orderBy('id')
+            ->get();
+
+        $riwayat = [];
+
+        if (Auth::check()) {
+            $riwayat = RiwayatKuis::where('user_id', Auth::id())
+                ->latest()
+                ->get()
+                ->keyBy('modul_id');
+        }
+
+        return view('Users.quizlist', compact(
+            'modules',
+            'riwayat'
+        ));
     }
 
     public function finish(Request $request)

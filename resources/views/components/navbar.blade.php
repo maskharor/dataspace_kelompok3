@@ -29,8 +29,8 @@
         <a href="{{ route('materi.index') }}" class="{{ request()->routeIs('materi.*') ? $currentClass : $defaultClass }}">
             Materi
         </a>
-       
-        <a href="#" class="{{ request()->routeIs('quiz.*') ? $currentClass : $defaultClass }}">
+        
+        <a href="{{ route('quiz.index') }}" class="{{ request()->routeIs('quiz.*') ? $currentClass : $defaultClass }}">
             Quiz
         </a>
 

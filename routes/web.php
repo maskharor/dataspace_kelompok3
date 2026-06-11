@@ -27,7 +27,9 @@
 
     Route::get('/materi', [MateriController::class, 'index'])
         ->name('materi.index');
-
+        
+    Route::get('/quiz', [QuizController::class, 'list'])
+    ->name('quiz.index');
     /*
     |--------------------------------------------------------------------------
     | GUEST ONLY
