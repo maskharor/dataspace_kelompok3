@@ -104,6 +104,10 @@
         Route::get('/pengaturan', function () {
             return view('Admin.pengaturan');
         })->name('admin.pengaturan');
+
+        Route::get('/kuis', function () {
+            return view('Admin.kuis');
+        })->name('admin.kuis');
     });
 
     Route::prefix('dosen')->group(function () {
