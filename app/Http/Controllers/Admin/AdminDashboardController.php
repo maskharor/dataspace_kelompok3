@@ -3,31 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Modul;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $hasStatusColumn = Schema::hasColumn('moduls', 'status');
-
         /*
         |--------------------------------------------------------------------------
         | Statistik Modul
         |--------------------------------------------------------------------------
         */
 
-        $modulStats = DB::table('moduls')
-            ->selectRaw('COUNT(*) as total_modul')
-            ->when(
-                $hasStatusColumn,
-                fn ($query) => $query->selectRaw("
-                    SUM(CASE WHEN status = 'draft' THEN 1 ELSE 0 END) as draft_modul,
-                    SUM(CASE WHEN status = 'published' THEN 1 ELSE 0 END) as published_modul
-                ")
-            )
-            ->first();
+        $totalModul = Modul::count();
+
+        $draftModul = Modul::where('status', 'draft')
+            ->count();
+
+        $publishedModul = Modul::where('status', 'published')
+            ->count();
 
         /*
         |--------------------------------------------------------------------------
@@ -46,29 +41,20 @@ class AdminDashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $modulColumns = [
-            'id',
-            'judul',
-            'deskripsi',
-            'kategori',
-            'updated_at'
-        ];
-
-        if ($hasStatusColumn) {
-            $modulColumns[] = 'status';
-        }
-
-        $moduls = DB::table('moduls')
-            ->select($modulColumns)
+        $moduls = Modul::select(
+                'id',
+                'judul',
+                'deskripsi',
+                'kategori',
+                'status',
+                'updated_at'
+            )
             ->orderBy('id')
             ->get()
-            ->map(function ($modul) use ($hasStatusColumn, $pesertaByModul) {
+            ->map(function ($modul) use ($pesertaByModul) {
 
-                $modul->status = $hasStatusColumn
-                    ? $modul->status
-                    : 'published';
-
-                $modul->peserta_count = (int) ($pesertaByModul[$modul->id] ?? 0);
+                $modul->peserta_count =
+                    (int) ($pesertaByModul[$modul->id] ?? 0);
 
                 return $modul;
             });
@@ -101,15 +87,11 @@ class AdminDashboardController extends Controller
         return view('Admin.dashboard', [
             'moduls' => $moduls,
             'stats' => [
-                'total_modul' => $modulStats->total_modul,
+                'total_modul' => $totalModul,
 
-                'draft_modul' => $hasStatusColumn
-                    ? (int) $modulStats->draft_modul
-                    : 0,
+                'draft_modul' => $draftModul,
 
-                'modul_aktif' => $hasStatusColumn
-                    ? (int) $modulStats->published_modul
-                    : (int) $modulStats->total_modul,
+                'modul_aktif' => $publishedModul,
 
                 'pengguna' => $totalPengguna,
 

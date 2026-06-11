@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Kelola Modul - Admin Panel DataSpace</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-    body {
-        font-family: 'Inter', sans-serif;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
     </style>
 </head>
 
@@ -38,7 +39,7 @@
 
             <!-- Navigasi -->
             <nav class="p-4 space-y-1">
-                <a href="dashboard"
+                <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -48,7 +49,7 @@
                     Dashboard
                 </a>
                 <!-- Menu Modul Aktif -->
-                <a href="modul"
+                <a href="{{ route('admin.modul') }}"
                     class="flex items-center gap-3 bg-[#1e232d] border border-blue-500/30 text-blue-400 px-4 py-3 rounded-lg font-medium transition shadow-[0_0_15px_rgba(59,130,246,0.1)]">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -58,7 +59,7 @@
                     Modul
                     <span class="ml-auto text-blue-500">›</span>
                 </a>
-                <a href="pengguna"
+                <a href="{{ route('admin.pengguna') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -67,7 +68,7 @@
                     </svg>
                     Pengguna
                 </a>
-                <a href="pengaturan"
+                <a href="{{ route('admin.pengaturan') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -85,10 +86,17 @@
         <div class="p-4">
             <div class="bg-[#1e232d] rounded-xl p-3 flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-black font-bold">
-                    A</div>
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
                 <div class="overflow-hidden">
-                    <p class="text-white text-sm font-semibold truncate">Admin</p>
-                    <p class="text-gray-500 text-xs truncate">admin@dataspace.id</p>
+                    <div class="overflow-hidden">
+                        <p class="text-white text-sm font-semibold truncate">
+                            {{ auth()->user()->name }}
+                        </p>
+                        <p class="text-gray-500 text-xs truncate">
+                            {{ auth()->user()->email }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,10 +106,10 @@
     <main class="flex-1 flex flex-col h-screen overflow-hidden">
         <!-- Topbar -->
         <header class="h-20 border-b border-gray-800 flex items-center justify-end px-8 shrink-0">
-            <button
+            <a href="{{ route('home') }}"
                 class="flex items-center gap-2 px-4 py-2 bg-[#1e232d] text-gray-300 rounded-lg text-sm border border-gray-700 hover:text-white transition">
                 <span>←</span> Ke Situs
-            </button>
+            </a>
         </header>
 
         <!-- Page Content Area -->
@@ -111,7 +119,9 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h2 class="text-3xl font-bold text-white mb-1">Kelola Modul</h2>
-                        <p class="text-gray-400 text-sm">3 dipublikasi · 3 draft</p>
+                        <p class="text-gray-400 text-sm">
+                            {{ $published }} dipublikasi · {{ $draft }} draft
+                        </p>
                     </div>
                     <button id="openModalBtn"
                         class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 transition shadow-lg shadow-blue-500/20">
@@ -121,16 +131,27 @@
 
                 <!-- Search & Filters -->
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <div class="relative flex-1">
+
+                    <form method="GET" action="{{ route('admin.modul') }}" class="relative flex-1">
+
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        <input type="text" placeholder="Cari modul atau tag..."
-                            class="w-full pl-11 pr-4 py-3 bg-[#1e232d] border border-gray-800 rounded-xl text-sm text-gray-300 focus:outline-none focus:border-blue-500 transition placeholder-gray-500">
-                    </div>
+
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Cari modul..."
+                            class="w-full pl-11 pr-20 py-3 bg-[#1e232d] border border-gray-800 rounded-xl text-sm text-gray-300 focus:outline-none focus:border-blue-500 transition placeholder-gray-500">
+
+                        <button type="submit"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded-lg transition">
+                            Cari
+                        </button>
+
+                    </form>
+
                 </div>
 
                 <!-- Table Section -->
@@ -149,341 +170,146 @@
                                 </tr>
                             </thead>
                             <tbody class="text-sm">
-                                <!-- Data Row 1 -->
-                                <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition group">
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center gap-3">
-                                            <div class="text-2xl w-8 text-center">🗄️</div>
-                                            <div>
-                                                <p class="text-white font-medium mb-1">Pengenalan Basis Data</p>
-                                                <div class="flex gap-2">
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">database</span>
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">dasar</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Pemula</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">5</td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">98</td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Dipublikasi</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-500">10 Mei 2026</td>
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center justify-end gap-3 text-gray-500">
-                                            <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg></button>
-                                        </div>
-                                    </td>
-                                </tr>
 
-                                <!-- Data Row 2 -->
-                                <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition group">
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center gap-3">
-                                            <div class="text-2xl w-8 text-center">📊</div>
-                                            <div>
-                                                <p class="text-white font-medium mb-1">Model Relasional</p>
-                                                <div class="flex gap-2">
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">relasional</span>
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">tabel</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Pemula</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">4</td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">75</td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Dipublikasi</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-500">12 Mei 2026</td>
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center justify-end gap-3 text-gray-500">
-                                            <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @forelse($moduls as $modul)
+                                    <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition group">
 
-                                <!-- Data Row 3 -->
-                                <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition group">
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center gap-3">
-                                            <div class="text-2xl w-8 text-center">🔗</div>
-                                            <div>
-                                                <p class="text-white font-medium mb-1">Entity Relationship Diagram</p>
-                                                <div class="flex gap-2">
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">ERD</span>
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">diagram</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Menengah</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">7</td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">61</td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Dipublikasi</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-500">14 Mei 2026</td>
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center justify-end gap-3 text-gray-500">
-                                            <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center gap-3">
 
-                                <!-- Data Row 4 -->
-                                <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition group">
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center gap-3">
-                                            <div class="text-2xl w-8 text-center">💠</div>
-                                            <div>
-                                                <p class="text-white font-medium mb-1">Enhanced ERD (EERD)</p>
-                                                <div class="flex gap-2">
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">EERD</span>
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">generalisasi</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Menengah</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">6</td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">34</td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800/50 text-gray-400 border border-gray-700">Draft</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-500">18 Mei 2026</td>
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center justify-end gap-3 text-gray-500">
-                                            <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                <div class="text-2xl w-8 text-center">📚</div>
 
-                                <!-- Data Row 5 -->
-                                <tr class="border-b border-gray-800/50 hover:bg-[#1e232d] transition group">
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center gap-3">
-                                            <div class="text-2xl w-8 text-center">🔽</div>
-                                            <div>
-                                                <p class="text-white font-medium mb-1">Normalisasi (1NF-3NF)</p>
-                                                <div class="flex gap-2">
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">normalisasi</span>
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">1NF</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Menengah</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">5</td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">20</td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800/50 text-gray-400 border border-gray-700">Draft</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-500">20 Mei 2026</td>
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center justify-end gap-3 text-gray-500">
-                                            <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                <div>
+                                                    <p class="text-white font-medium mb-1">
+                                                        {{ $modul->judul }}
+                                                    </p>
 
-                                <!-- Data Row 6 -->
-                                <tr class="hover:bg-[#1e232d] transition group">
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center gap-3">
-                                            <div class="text-2xl w-8 text-center">💻</div>
-                                            <div>
-                                                <p class="text-white font-medium mb-1">SQL Dasar</p>
-                                                <div class="flex gap-2">
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">SQL</span>
-                                                    <span
-                                                        class="px-2 py-0.5 bg-gray-800 text-gray-400 text-xs rounded border border-gray-700">query</span>
+                                                    <p class="text-gray-500 text-xs">
+                                                        {{ \Illuminate\Support\Str::limit($modul->deskripsi, 50) }}
+                                                    </p>
                                                 </div>
+
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">Lanjut</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">8</td>
-                                    <td class="py-4 px-6 text-gray-300 text-center">0</td>
-                                    <td class="py-4 px-6">
-                                        <span
-                                            class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800/50 text-gray-400 border border-gray-700">Draft</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-gray-500">25 Mei 2026</td>
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center justify-end gap-3 text-gray-500">
-                                            <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                                    </path>
-                                                </svg></button>
-                                            <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+
+                                        <td class="py-4 px-6">
+
+                                            @if ($modul->kategori === 'pemula')
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                                    Pemula
+                                                </span>
+                                            @elseif($modul->kategori === 'menengah')
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+                                                    Menengah
+                                                </span>
+                                            @else
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                                                    Lanjut
+                                                </span>
+                                            @endif
+
+                                        </td>
+
+                                        <td class="py-4 px-6 text-center">
+                                            -
+                                        </td>
+
+                                        <td class="py-4 px-6 text-center">
+                                            -
+                                        </td>
+
+                                        <td class="py-4 px-6">
+
+                                            @if ($modul->status === 'published')
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                                    Dipublikasi
+                                                </span>
+                                            @elseif($modul->status === 'draft')
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800/50 text-gray-400 border border-gray-700">
+                                                    Draft
+                                                </span>
+                                            @elseif($modul->status === 'rejected')
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                                                    Ditolak
+                                                </span>
+                                            @endif
+
+                                        </td>
+
+                                        <td class="py-4 px-6 text-gray-500">
+                                            {{ $modul->updated_at->format('d M Y') }}
+                                        </td>
+
+                                        <td class="py-4 px-6">
+
+                                            <div class="flex items-center justify-end gap-3 text-gray-500">
+
+                                                {{-- VIEW --}}
+                                                <button class="btn-view hover:text-white transition"
+                                                    data-id="{{ $modul->id }}">
+
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0" />
+
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    </svg>
+
+                                                </button>
+
+                                                {{-- EDIT --}}
+                                                <button class="btn-edit hover:text-blue-400 transition"
+                                                    data-id="{{ $modul->id }}">
+
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                    </svg>
+
+                                                </button>
+
+                                                {{-- DELETE --}}
+                                                <button class="btn-hapus hover:text-red-400 transition"
+                                                    data-id="{{ $modul->id }}">
+
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+
+                                                </button>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                @empty
+
+                                    <tr>
+                                        <td colspan="7" class="text-center py-10 text-gray-500">
+                                            Belum ada modul tersedia.
+                                        </td>
+                                    </tr>
+                                @endforelse
+
                             </tbody>
                         </table>
                     </div>
@@ -491,7 +317,7 @@
             </div>
         </div>
 
-        <!-- TAMBAH MODAL -->
+        <!-- TAMBAH MODUL -->
 
         <div id="tambahModulModal"
             class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
@@ -502,7 +328,7 @@
                 <div class="flex justify-between items-center p-6 border-b border-gray-800 shrink-0">
                     <h3 class="text-xl font-bold text-white">Tambah Modul Baru</h3>
                     <button id="closeModalBtn"
-                        class="text-gray-400 hover:text-white transition bg-[#1e232d] hover:bg-gray-700 p-1.5 rounded-lg">
+                        class="close-modal-btn text-gray-400 hover:text-white transition bg-[#1e232d] hover:bg-gray-700 p-1.5 rounded-lg">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M6 18L18 6M6 6l12 12"></path>
@@ -511,38 +337,102 @@
                 </div>
 
                 <div class="p-6 overflow-y-auto custom-scrollbar">
-                    <form id="tambahModulForm" class="space-y-5">
+                    <form method="POST" action="{{ route('admin.modul.store') }}" enctype="multipart/form-data"
+                        class="space-y-5">
 
+                        @csrf
+
+                        {{-- Judul Modul --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Judul Modul <span
-                                    class="text-red-400">*</span></label>
-                            <input type="text" placeholder="Misal: Pengenalan Basis Data"
-                                class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Kategori</label>
-                            <input type="text" placeholder="Pisahkan dengan koma (Contoh: database, dasar)"
-                                class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition">
-                            <p class="text-xs text-gray-500 mt-1.5">Masukkan kategori modul ini</p>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Judul Modul*
+                            </label>
+                            <input type="text" name="judul" required placeholder="Masukkan judul modul"
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300 focus:outline-none focus:border-blue-500">
+                            </input>
                         </div>
 
+                        {{-- Kategori --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Deskripsi Singkat</label>
-                            <textarea rows="3" placeholder="Tuliskan gambaran singkat mengenai modul ini..."
-                                class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition resize-none"></textarea>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Kategori *
+                            </label>
+
+                            <select name="kategori" required
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300 focus:outline-none focus:border-blue-500">
+
+                                <option value="pemula">Pemula</option>
+                                <option value="menengah">Menengah</option>
+                                <option value="lanjut">Lanjut</option>
+
+                            </select>
                         </div>
+
+                        {{-- Deskripsi --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Deskripsi Singkat
+                            </label>
+
+                            <textarea name="deskripsi" rows="3" placeholder="Tuliskan gambaran singkat mengenai modul..."
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300 focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+
+                        {{-- Konten Materi --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Konten Materi
+                            </label>
+
+                            <textarea name="konten_teks" rows="8" placeholder="Tuliskan isi materi pembelajaran..."
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300 focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+
+                        {{-- Upload File --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                File Materi
+                            </label>
+
+                            <input type="file" name="konten_file" accept=".pdf,.doc,.docx,.ppt,.pptx"
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
+
+                            <p class="text-xs text-gray-500 mt-2">
+                                Format: PDF, DOC, DOCX, PPT, PPTX
+                            </p>
+                        </div>
+
+                        {{-- Upload Video --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Video Pembelajaran
+                            </label>
+
+                            <input type="file" name="video_path" accept=".mp4,.webm"
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
+
+                            <p class="text-xs text-gray-500 mt-2">
+                                Format: MP4, WEBM
+                            </p>
+                        </div>
+
+                        {{-- Tombol --}}
+                        <div class="flex justify-end gap-3 pt-4 border-t border-gray-800">
+
+                            <button type="button"
+                                class="close-modal-btn px-5 py-2.5 bg-[#1e232d] border border-gray-700 rounded-lg text-gray-300 hover:bg-[#252b36] transition">
+                                Batal
+                            </button>
+
+                            <button type="submit"
+                                class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium transition">
+                                Simpan Modul
+                            </button>
+
+                        </div>
+
                     </form>
                 </div>
-
-                <div class="p-6 border-t border-gray-800 flex justify-end gap-3 bg-[#181b22] rounded-b-2xl shrink-0">
-                    <button id="cancelModalBtn" type="button"
-                        class="px-5 py-2.5 text-sm font-medium text-gray-400 hover:text-white bg-transparent hover:bg-[#252b36] border border-gray-700 rounded-lg transition">Batal</button>
-                    <button form="tambahModulForm" type="submit"
-                        class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition shadow-lg shadow-blue-500/20">Simpan
-                        Modul</button>
-                </div>
-
             </div>
         </div>
 
@@ -563,28 +453,61 @@
                     </button>
                 </div>
                 <div class="p-6 space-y-4">
+
                     <div>
-                        <p class="text-sm text-gray-500 mb-1">Judul Modul</p>
-                        <p class="text-white font-medium">Pengenalan Basis Data</p>
+                        <p class="text-sm text-gray-500 mb-1">
+                            Judul Modul
+                        </p>
+
+                        <p id="detailJudul" class="text-white font-medium">
+                        </p>
                     </div>
+
                     <div>
-                        <p class="text-sm text-gray-500 mb-1">Kategori</p>
-                        <div class="flex gap-2">
-                            <span
-                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">database</span>
-                            <span
-                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">dasar</span>
+                        <p class="text-sm text-gray-500 mb-1">
+                            Kategori
+                        </p>
+
+                        <div id="detailKategori" class="flex gap-2">
                         </div>
                     </div>
+
                     <div>
-                        <p class="text-sm text-gray-500 mb-1">Deskripsi Singkat</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Modul ini berisi materi dasar-dasar pengenalan
-                            basis data relasional untuk pemula.</p>
+                        <p class="text-sm text-gray-500 mb-1">
+                            Deskripsi Singkat
+                        </p>
+
+                        <p id="detailDeskripsi" class="text-gray-300 text-sm leading-relaxed">
+                        </p>
                     </div>
-                </div>
-                <div class="p-6 border-t border-gray-800 flex justify-end bg-[#181b22] rounded-b-2xl">
-                    <button type="button"
-                        class="close-modal-btn px-5 py-2.5 text-sm font-medium text-gray-400 hover:text-white bg-[#252b36] border border-gray-700 rounded-lg transition">Tutup</button>
+
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">
+                            Konten Materi
+                        </p>
+
+                        <div id="detailKonten"
+                            class="text-gray-300 text-sm whitespace-pre-wrap max-h-48 overflow-y-auto">
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">
+                            File Materi
+                        </p>
+
+                        <a id="detailFile" target="_blank" class="text-blue-400 hover:text-blue-300">
+                        </a>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">
+                            Video Pembelajaran
+                        </p>
+
+                        <video id="detailVideo" controls class="w-full rounded-lg hidden">
+                        </video>
+                    </div>
                 </div>
             </div>
         </div>
@@ -604,31 +527,80 @@
                     </button>
                 </div>
                 <div class="p-6 overflow-y-auto custom-scrollbar">
-                    <form class="space-y-5">
+                    <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-5">
+
+                        @csrf
+                        @method('PUT')
+
                         <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Judul Modul <span
-                                    class="text-red-400">*</span></label>
-                            <input type="text" value="Pengenalan Basis Data"
-                                class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition">
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Judul Modul
+                            </label>
+
+                            <input id="editJudul" name="judul" type="text" required
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Kategori</label>
-                            <input type="text" value="database, dasar"
-                                class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition">
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Kategori
+                            </label>
+
+                            <select id="editKategori" name="kategori"
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
+
+                                <option value="pemula">Pemula</option>
+                                <option value="menengah">Menengah</option>
+                                <option value="lanjut">Lanjut</option>
+
+                            </select>
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-1.5">Deskripsi Singkat</label>
-                            <textarea rows="3"
-                                class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition resize-none">Modul ini berisi materi dasar-dasar pengenalan basis data relasional untuk pemula.</textarea>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Deskripsi
+                            </label>
+
+                            <textarea id="editDeskripsi" name="deskripsi" rows="3"
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300"></textarea>
                         </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Konten Materi
+                            </label>
+
+                            <textarea id="editKonten" name="konten_teks" rows="6"
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                File Materi
+                            </label>
+
+                            <input type="file" name="konten_file"
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Video Pembelajaran
+                            </label>
+
+                            <input type="file" name="video_path"
+                                class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
+                        </div>
+
                     </form>
                 </div>
                 <div class="p-6 border-t border-gray-800 flex justify-end gap-3 bg-[#181b22] rounded-b-2xl shrink-0">
                     <button type="button"
                         class="close-modal-btn px-5 py-2.5 text-sm font-medium text-gray-400 hover:text-white bg-transparent hover:bg-[#252b36] border border-gray-700 rounded-lg transition">Batal</button>
-                    <button type="submit"
-                        class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition shadow-lg shadow-blue-500/20">Simpan
-                        Perubahan</button>
+                    <button type="submit" form="editForm"
+                        class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition shadow-lg shadow-blue-500/20">
+                        Simpan Perubahan
+                    </button>
                 </div>
             </div>
         </div>
@@ -645,77 +617,178 @@
                     </svg>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Hapus Modul?</h3>
-                <p class="text-gray-400 text-sm mb-6">Apakah Anda yakin ingin menghapus modul ini? Semua materi di
+                <p class="text-gray-400 text-sm mb-6">Apakah Anda yakin ingin menghapus modul ini? Semua materi
+                    di
                     dalamnya akan ikut terhapus dan tidak dapat dikembalikan.</p>
                 <div class="flex justify-center gap-3">
                     <button type="button"
-                        class="close-modal-btn px-5 py-2.5 text-sm font-medium text-gray-300 hover:text-white bg-[#1e232d] border border-gray-700 hover:bg-gray-700 rounded-lg transition w-full">Batal</button>
-                    <button type="button"
-                        class="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition shadow-lg shadow-red-500/20 w-full">Ya,
-                        Hapus</button>
+                        class="close-modal-btn px-5 py-2.5 text-sm font-medium text-gray-300 hover:text-white bg-[#1e232d] border border-gray-700 hover:bg-gray-700 rounded-lg transition w-full">
+                        Batal
+                    </button>
+                    <button id="confirmDeleteBtn" type="button"
+                        class="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition shadow-lg shadow-red-500/20 w-full">
+                        Ya, Hapus
+                    </button>
                 </div>
             </div>
         </div>
     </main>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Fungsi untuk membuka modal
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            const modalBox = modal.querySelector('div.transform');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fungsi untuk membuka modal
+            function openModal(modalId) {
+                const modal = document.getElementById(modalId);
+                const modalBox = modal.querySelector('div.transform');
 
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalBox.classList.remove('scale-95');
-                modalBox.classList.add('scale-100');
-            }, 10);
-        }
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalBox.classList.remove('scale-95');
+                    modalBox.classList.add('scale-100');
+                }, 10);
+            }
 
-        // Fungsi untuk menutup modal
-        function closeModal(modal) {
-            const modalBox = modal.querySelector('div.transform');
+            // Fungsi untuk menutup modal
+            function closeModal(modal) {
+                const modalBox = modal.querySelector('div.transform');
 
-            modal.classList.add('opacity-0');
-            modalBox.classList.remove('scale-100');
-            modalBox.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
+                modal.classList.add('opacity-0');
+                modalBox.classList.remove('scale-100');
+                modalBox.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
 
-        // 1. Tombol Tambah Modul Utama
-        document.getElementById('openModalBtn').addEventListener('click', () => openModal('tambahModulModal'));
+            document.getElementById('openModalBtn').addEventListener('click', () => openModal('tambahModulModal'));
 
-        // 2. Tombol Aksi di dalam Tabel
-        document.querySelectorAll('.btn-view').forEach(btn => {
-            btn.addEventListener('click', () => openModal('viewModulModal'));
-        });
-        document.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', () => openModal('editModulModal'));
-        });
-        document.querySelectorAll('.btn-hapus').forEach(btn => {
-            btn.addEventListener('click', () => openModal('hapusModulModal'));
-        });
-
-        // 3. Logika Penutup untuk SEMUA Modal
-        const allModals = document.querySelectorAll('.modal-container, #tambahModulModal');
-        allModals.forEach(modal => {
-            // Tutup saat tombol 'Batal' / 'Tutup' / 'X' diklik
-            const closeBtns = modal.querySelectorAll(
-                '.close-modal-btn, #closeModalBtn, #cancelModalBtn');
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', () => closeModal(modal));
+            document.querySelectorAll('.close-modal-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const modal = btn.closest('.fixed');
+                    if (modal) {
+                        closeModal(modal);
+                    }
+                });
             });
 
-            // Tutup saat area gelap luar diklik
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal(modal);
-                }
+            /* ==========================================
+            DETAIL MODUL
+            ========================================== */
+            document.querySelectorAll('.btn-view').forEach(btn => {
+                btn.addEventListener('click', async () => {
+
+                    const id = btn.dataset.id;
+
+                    try {
+                        const response = await fetch(`/admin/modul/${id}`);
+                        const modul = await response.json();
+
+                        document.getElementById('detailJudul').textContent =
+                            modul.judul;
+                        document.getElementById('detailDeskripsi').textContent =
+                            modul.deskripsi ?? '-';
+                        document.getElementById('detailKonten').textContent =
+                            modul.konten_teks ?? '-';
+                        document.getElementById('detailKategori').innerHTML =
+                            `<span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                    ${modul.kategori}
+                </span>`;
+                        const fileLink =
+                            document.getElementById('detailFile');
+                        if (modul.konten_file) {
+                            fileLink.href =
+                                `/storage/${modul.konten_file}`;
+                            fileLink.textContent =
+                                'Lihat File Materi';
+                        } else {
+                            fileLink.removeAttribute('href');
+                            fileLink.textContent =
+                                'Tidak ada file';
+                        }
+                        const video =
+                            document.getElementById('detailVideo');
+                        if (modul.video_path) {
+                            video.src =
+                                `/storage/${modul.video_path}`;
+                            video.classList.remove('hidden');
+                        } else {
+                            video.src = '';
+                            video.classList.add('hidden');
+                        }
+                        openModal('viewModulModal');
+                    } catch (error) {
+                        console.error(error);
+                        alert('Gagal memuat detail modul');
+                    }
+                });
             });
+
+            /* ==========================================
+               EDIT MODUL
+            ========================================== */
+            document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', async () => {
+
+                    const id = btn.dataset.id;
+
+                    try {
+                        const response =
+                            await fetch(`/admin/modul/${id}`);
+                        const modul =
+                            await response.json();
+                        document.getElementById('editForm').action =
+                            `/admin/modul/${id}`;
+                        document.getElementById('editJudul').value =
+                            modul.judul ?? '';
+                        document.getElementById('editKategori').value =
+                            modul.kategori ?? 'pemula';
+                        document.getElementById('editDeskripsi').value =
+                            modul.deskripsi ?? '';
+                        document.getElementById('editKonten').value =
+                            modul.konten_teks ?? '';
+                        openModal('editModulModal');
+                    } catch (error) {
+                        console.error(error);
+                        alert('Gagal memuat data modul');
+                    }
+                });
+            });
+
+            /* ==========================================
+               DELETE MODUL
+            ========================================== */
+            let deleteId = null;
+            document.querySelectorAll('.btn-hapus').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    deleteId = btn.dataset.id;
+                    openModal('hapusModulModal');
+                });
+            });
+
+            document.getElementById('confirmDeleteBtn')
+                .addEventListener('click', async () => {
+                    try {
+                        const response = await fetch(
+                            `/admin/modul/${deleteId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector(
+                                        'meta[name="csrf-token"]'
+                                    ).content,
+                                    'Accept': 'application/json'
+                                }
+                            }
+                        );
+                        if (!response.ok) {
+                            throw new Error();
+                        }
+                        location.reload();
+                    } catch (error) {
+                        console.error(error);
+                        alert('Gagal menghapus modul');
+                    }
+                });
         });
-    });
     </script>
 </body>
 

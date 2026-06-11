@@ -2,12 +2,35 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminModulController;
+use App\Http\Controllers\MateriController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| MATERI (BISA DILIHAT SEMUA)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/materi', [MateriController::class, 'index'])
+    ->name('materi.index');
+
+/*
+|--------------------------------------------------------------------------
+| GUEST ONLY
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('guest')->group(function () {
 
@@ -24,8 +47,17 @@ Route::middleware('guest')->group(function () {
         ->name('register.proses');
 });
 
+/*
+|--------------------------------------------------------------------------
+| AUTH USER
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('auth')->group(function () {
 
+    /*
+    | Redirect Dashboard Berdasarkan Role
+    */
     Route::get('/dashboard', function () {
 
         $user = Auth::user();
@@ -34,38 +66,48 @@ Route::middleware('auth')->group(function () {
             return redirect()->route('admin.dashboard');
         }
 
-        if ($user->role === 'mahasiswa') {
-            return redirect()->route('materi.index');
+        if ($user->role === 'dosen') {
+            return redirect()->route('Instructor.dashboard');
         }
 
-        if ($user->role === 'dosen') {
+        if ($user->role === 'mahasiswa') {
             return redirect()->route('materi.index');
         }
 
         return redirect()->route('home');
     })->name('dashboard');
 
-    Route::get('/materi', function () {
-        return view('materi.index');
-    })->name('materi.index');
+    /*
+    | Detail Materi
+    */
+    Route::get('/materi/{id}', [MateriController::class, 'show'])
+        ->name('materi.show');
 
+    /*
+    | Logout
+    */
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
-        Route::get(
-            '/dashboard',
-            [AdminDashboardController::class, 'index']
-        )->name('dashboard');
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+            ->name('dashboard');
 
-        Route::get('/modul', function () {
-            return view('Admin.modul');
-        })->name('modul');
+        Route::get(
+            '/modul',
+            [AdminModulController::class, 'index']
+        )->name('modul');
 
         Route::get('/pengguna', function () {
             return view('Admin.pengguna');
@@ -74,4 +116,33 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/pengaturan', function () {
             return view('Admin.pengaturan');
         })->name('pengaturan');
+
+        Route::post(
+            '/modul',
+            [AdminModulController::class, 'store']
+        )->name('modul.store');
+
+        Route::get('/modul/{modul}', [AdminModulController::class, 'show'])
+            ->name('modul.show');
+
+        Route::put('/modul/{modul}', [AdminModulController::class, 'update'])
+            ->name('modul.update');
+
+        Route::delete('/modul/{modul}', [AdminModulController::class, 'destroy'])
+            ->name('modul.destroy');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| DOSEN
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')
+    ->prefix('dosen')
+    ->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('Instructor.dashboard');
+        })->name('Instructor.dashboard');
     });

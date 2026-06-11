@@ -8,9 +8,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-    body {
-        font-family: 'Inter', sans-serif;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
     </style>
 </head>
 
@@ -117,7 +117,9 @@
         <header class="h-20 border-b border-gray-800 flex items-center justify-end px-8">
             <button
                 class="flex items-center gap-2 px-4 py-2 bg-[#1e232d] text-gray-300 rounded-lg text-sm border border-gray-700 hover:text-white transition">
-                <span>←</span> Ke Situs
+                <a href="{{ route('home') }}">
+                    ← Kembali ke Situs
+                </a>
             </button>
         </header>
 
@@ -230,8 +232,9 @@
                                         <button class="btn-view hover:text-white transition"
                                             data-title="{{ $modul->judul }}"
                                             data-category="{{ ucfirst($kategori) }}"
-                                            data-description="{{ $modul->deskripsi ?? 'Belum ada deskripsi.' }}"><svg class="w-5 h-5"
-                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            data-description="{{ $modul->deskripsi ?? 'Belum ada deskripsi.' }}"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -248,8 +251,8 @@
                                                 </path>
                                             </svg></button>
                                         <button class="btn-hapus hover:text-red-400 transition"
-                                            data-title="{{ $modul->judul }}"><svg class="w-5 h-5"
-                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            data-title="{{ $modul->judul }}"><svg class="w-5 h-5" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                                 </path>
@@ -365,7 +368,8 @@
                     </svg>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Hapus Modul?</h3>
-                <p id="hapusModulDescription" class="text-gray-400 text-sm mb-6">Apakah Anda yakin ingin menghapus modul ini? Semua materi di
+                <p id="hapusModulDescription" class="text-gray-400 text-sm mb-6">Apakah Anda yakin ingin menghapus
+                    modul ini? Semua materi di
                     dalamnya akan ikut terhapus dan tidak dapat dikembalikan.</p>
                 <div class="flex justify-center gap-3">
                     <button type="button"
@@ -378,89 +382,90 @@
         </div>
     </main>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Fungsi untuk membuka modal
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            const modalBox = modal.querySelector('div.transform');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fungsi untuk membuka modal
+            function openModal(modalId) {
+                const modal = document.getElementById(modalId);
+                const modalBox = modal.querySelector('div.transform');
 
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalBox.classList.remove('scale-95');
-                modalBox.classList.add('scale-100');
-            }, 10);
-        }
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalBox.classList.remove('scale-95');
+                    modalBox.classList.add('scale-100');
+                }, 10);
+            }
 
-        // Fungsi untuk menutup modal
-        function closeModal(modal) {
-            const modalBox = modal.querySelector('div.transform');
+            // Fungsi untuk menutup modal
+            function closeModal(modal) {
+                const modalBox = modal.querySelector('div.transform');
 
-            modal.classList.add('opacity-0');
-            modalBox.classList.remove('scale-100');
-            modalBox.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
+                modal.classList.add('opacity-0');
+                modalBox.classList.remove('scale-100');
+                modalBox.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
 
-        function getModuleData(button) {
-            return {
-                title: button.dataset.title || '-',
-                category: button.dataset.category || '-',
-                description: button.dataset.description || 'Belum ada deskripsi.',
-            };
-        }
+            function getModuleData(button) {
+                return {
+                    title: button.dataset.title || '-',
+                    category: button.dataset.category || '-',
+                    description: button.dataset.description || 'Belum ada deskripsi.',
+                };
+            }
 
-        // 2. Tombol Aksi di dalam Tabel
-        document.querySelectorAll('.btn-view').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const module = getModuleData(btn);
+            // 2. Tombol Aksi di dalam Tabel
+            document.querySelectorAll('.btn-view').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const module = getModuleData(btn);
 
-                document.getElementById('viewModulTitle').textContent = module.title;
-                document.getElementById('viewModulCategory').textContent = module.category;
-                document.getElementById('viewModulDescription').textContent = module.description;
-                openModal('viewModulModal');
+                    document.getElementById('viewModulTitle').textContent = module.title;
+                    document.getElementById('viewModulCategory').textContent = module.category;
+                    document.getElementById('viewModulDescription').textContent = module
+                    .description;
+                    openModal('viewModulModal');
+                });
+            });
+            document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const module = getModuleData(btn);
+
+                    document.getElementById('editModulTitle').value = module.title;
+                    document.getElementById('editModulCategory').value = module.category;
+                    document.getElementById('editModulDescription').value = module.description;
+                    openModal('editModulModal');
+                });
+            });
+            document.querySelectorAll('.btn-hapus').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const module = getModuleData(btn);
+
+                    document.getElementById('hapusModulDescription').textContent =
+                        `Apakah Anda yakin ingin menghapus modul "${module.title}"? Semua materi di dalamnya akan ikut terhapus dan tidak dapat dikembalikan.`;
+                    openModal('hapusModulModal');
+                });
+            });
+
+            // 3. Logika Penutup untuk SEMUA Modal
+            const allModals = document.querySelectorAll('.modal-container, #tambahModulModal');
+            allModals.forEach(modal => {
+                // Tutup saat tombol 'Batal' / 'Tutup' / 'X' diklik
+                const closeBtns = modal.querySelectorAll(
+                    '.close-modal-btn, #closeModalBtn, #cancelModalBtn');
+                closeBtns.forEach(btn => {
+                    btn.addEventListener('click', () => closeModal(modal));
+                });
+
+                // Tutup saat area gelap luar diklik
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal(modal);
+                    }
+                });
             });
         });
-        document.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const module = getModuleData(btn);
-
-                document.getElementById('editModulTitle').value = module.title;
-                document.getElementById('editModulCategory').value = module.category;
-                document.getElementById('editModulDescription').value = module.description;
-                openModal('editModulModal');
-            });
-        });
-        document.querySelectorAll('.btn-hapus').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const module = getModuleData(btn);
-
-                document.getElementById('hapusModulDescription').textContent =
-                    `Apakah Anda yakin ingin menghapus modul "${module.title}"? Semua materi di dalamnya akan ikut terhapus dan tidak dapat dikembalikan.`;
-                openModal('hapusModulModal');
-            });
-        });
-
-        // 3. Logika Penutup untuk SEMUA Modal
-        const allModals = document.querySelectorAll('.modal-container, #tambahModulModal');
-        allModals.forEach(modal => {
-            // Tutup saat tombol 'Batal' / 'Tutup' / 'X' diklik
-            const closeBtns = modal.querySelectorAll(
-                '.close-modal-btn, #closeModalBtn, #cancelModalBtn');
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', () => closeModal(modal));
-            });
-
-            // Tutup saat area gelap luar diklik
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal(modal);
-                }
-            });
-        });
-    });
     </script>
 </body>
 
