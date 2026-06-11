@@ -48,6 +48,7 @@
                     </svg>
                     Dashboard
                 </a>
+
                 <!-- Menu Modul Aktif -->
                 <a href="{{ route('admin.modul') }}"
                     class="flex items-center gap-3 bg-[#1e232d] border border-blue-500/30 text-blue-400 px-4 py-3 rounded-lg font-medium transition shadow-[0_0_15px_rgba(59,130,246,0.1)]">
@@ -58,6 +59,15 @@
                     </svg>
                     Modul
                     <span class="ml-auto text-blue-500">›</span>
+                </a>
+                <a href="kuis"
+                    class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                        </path>
+                    </svg>
+                    Kuis
                 </a>
                 <a href="{{ route('admin.pengguna') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
@@ -687,7 +697,7 @@
                             modul.judul;
                         document.getElementById('detailDeskripsi').textContent =
                             modul.deskripsi ?? '-';
-                        document.getElementById('detailKonten').textContent =
+                        document.getElementById('detailKonten').innerHTML =
                             modul.konten_teks ?? '-';
                         document.getElementById('detailKategori').innerHTML =
                             `<span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
