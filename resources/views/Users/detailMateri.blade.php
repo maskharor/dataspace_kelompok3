@@ -46,7 +46,30 @@ $sections = [
             @endforeach
 
         </div>
+        
+        {{-- Quiz CTA --}}
+        <div class="mt-8 pt-6 border-t border-slate-700">
 
+            <div class="bg-gradient-to-br from-blue-500/10 to-purple-500/10
+                        border border-blue-500/30
+                        rounded-2xl p-5">
+
+                <div class="text-3xl mb-3">
+                    🎯
+                </div>
+
+                <h3 class="font-semibold text-white mb-2">
+                    Kerjakan Kuis
+                </h3>
+
+                <a href="{{ route('quiz', $module->id) }}"
+                    class="block text-center w-full bg-blue-500 hover:bg-blue-600 transition py-3 rounded-xl font-medium">
+                    Mulai Kuis
+                </a>
+
+            </div>
+
+        </div>
     </div>
 
     {{-- Content --}}
