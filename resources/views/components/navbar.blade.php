@@ -82,7 +82,7 @@
                      Dashboard
                 </a>
             @elseif(Auth::user()->role === 'dosen')
-                <a href="{{ route('Instructor.dashboard') }}"
+                <a href="{{ route('instructor.dashboard') }}"
                     class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 transition">
                     Dashboard
                 </a>

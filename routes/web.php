@@ -5,6 +5,7 @@
     use App\Http\Controllers\Admin\AdminModulController;
     use App\Http\Controllers\MateriController;
     use App\Http\Controllers\QuizController;
+    use App\Http\Controllers\UserDashboardController;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Route;
 
@@ -66,15 +67,16 @@
             }
 
             if ($user->role === 'dosen') {
-                return redirect()->route('Instructor.dashboard');
+                return redirect()->route('instructor.dashboard');
             }
 
             if ($user->role === 'mahasiswa') {
-                return redirect()->route('materi.index');
+                return redirect()->route('user.dashboard');
             }
 
             return redirect()->route('home');
         })->name('dashboard');
+
 
         // Detail materi
         Route::get('/materi/{id}', [MateriController::class, 'show'])
@@ -98,70 +100,86 @@
             ->name('logout');
     });
 
+    // mahasiswam
+   Route::middleware(['auth', 'role:mahasiswa'])
+    ->prefix('user')
+    ->name('user.')
+    ->group(function () {
+
+        Route::get('/dashboard', [UserDashboardController::class, 'index'])
+            ->name('dashboard');
+
+    });
+
+    // dosen
+    Route::middleware(['auth', 'role:dosen'])
+        ->prefix('dosen')
+        ->name('instructor.')
+        ->group(function () {
+
+            Route::get('/dashboard', function () {
+                return view('Instructor.dashboard');
+            })->name('dashboard');
+        });
+
     /*
     |--------------------------------------------------------------------------
     | ADMIN
     |--------------------------------------------------------------------------
     */
-   Route::middleware(['auth', 'role:admin'])
-    ->prefix('admin')
-    ->name('admin.')
-    ->group(function () {
-        Route::get(
-            '/dashboard',
-            [AdminDashboardController::class, 'index']
-        )->name('dashboard');
+    Route::middleware(['auth', 'role:admin'])
+        ->prefix('admin')
+        ->name('admin.')
+        ->group(function () {
+            Route::get(
+                '/dashboard',
+                [AdminDashboardController::class, 'index']
+            )->name('dashboard');
 
-        /*
+            /*
         |--------------------------------------------------------------------------
         | MODUL CRUD
         |--------------------------------------------------------------------------
         */
-        Route::get(
-            '/modul',
-            [AdminModulController::class, 'index']
-        )->name('modul');
+            Route::get(
+                '/modul',
+                [AdminModulController::class, 'index']
+            )->name('modul');
 
-        Route::post(
-            '/modul',
-            [AdminModulController::class, 'store']
-        )->name('modul.store');
+            Route::post(
+                '/modul',
+                [AdminModulController::class, 'store']
+            )->name('modul.store');
 
-        Route::get(
-            '/modul/{modul}',
-            [AdminModulController::class, 'show']
-        )->name('modul.show');
+            Route::get(
+                '/modul/{modul}',
+                [AdminModulController::class, 'show']
+            )->name('modul.show');
 
-        Route::put(
-            '/modul/{modul}',
-            [AdminModulController::class, 'update']
-        )->name('modul.update');
+            Route::put(
+                '/modul/{modul}',
+                [AdminModulController::class, 'update']
+            )->name('modul.update');
 
-        Route::delete(
-            '/modul/{modul}',
-            [AdminModulController::class, 'destroy']
-        )->name('modul.destroy');
+            Route::delete(
+                '/modul/{modul}',
+                [AdminModulController::class, 'destroy']
+            )->name('modul.destroy');
 
-        /*
+            /*
         |--------------------------------------------------------------------------
         | HALAMAN ADMIN LAIN
         |--------------------------------------------------------------------------
         */
-        Route::get('/pengguna', function () {
-            return view('Admin.pengguna');
-        })->name('pengguna');
+            Route::get('/pengguna', function () {
+                return view('Admin.pengguna');
+            })->name('pengguna');
 
-        Route::get('/pengaturan', function () {
-            return view('Admin.pengaturan');
-        })->name('pengaturan');
+            Route::get('/pengaturan', function () {
+                return view('Admin.pengaturan');
+            })->name('pengaturan');
 
-        Route::get('/kuis', function () {
-            return view('Admin.kuis');
-        })->name('kuis');
-    });
-
-    Route::prefix('dosen')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('Instructor.dashboard');
-        })->name('Instructor.dashboard');
-    });
+            Route::get('/kuis', function () {
+                return view('Admin.kuis');
+            })->name('kuis');
+        });

@@ -10,51 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
-
-
-    // public function index()
-    // {
-
-    //     $soals = Soal::all();
-
-
-    //     $nomor = session('nomor_soal', 1);
-
-
-
-    //     if ($nomor > $soals->count()) {
-
-    //         return redirect('/quiz/finish');
-    //     }
-
-
-
-    //     $soal = $soals[$nomor - 1];
-
-
-
-    //     session([
-    //         'soal_id' => $soal->id
-    //     ]);
-
-
-
-    //    return view('Users.quiz',[
-    //         'soal' => $soal,
-    //         'nomor' => $nomor,
-    //         'total' => $soals->count(),
-    //         'sudahMenjawab' => session('sudah_menjawab', false),
-    //         'jawabanUser' => session('jawaban_user'),
-    //         'jawabanBenar' => session('jawaban_benar'),
-    //     ]);
-    // }
-
     public function index($modulId)
     {
-        /*
-     * Jika user baru memulai kuis modul berbeda,
-     * reset session kuis lama.
-     */
+
         if (session('modul_id') != $modulId) {
 
             session()->forget([
