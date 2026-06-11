@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('soals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('modul_id')->constrained('moduls')->onDelete('cascade');
+
+            $table->foreignId('modul_id')
+                ->constrained('moduls')
+                ->cascadeOnDelete();
+
             $table->text('pertanyaan');
+
             $table->json('opsi_jawaban');
-            $table->string('kunci_jawaban'); 
+
+            $table->string('kunci_jawaban');
+
             $table->timestamps();
         });
     }

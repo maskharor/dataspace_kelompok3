@@ -21,4 +21,15 @@ class Modul extends Model
         'catatan_revisi',
         'reviewed_at'
     ];
+
+    public function soals()
+    {
+        return $this->hasMany(Soal::class);
+    }
+
+
+    public function riwayatKuis()
+    {
+        return $this->hasMany(RiwayatKuis::class);
+    }
 }
