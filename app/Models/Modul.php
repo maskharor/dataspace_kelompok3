@@ -32,4 +32,14 @@ class Modul extends Model
     {
         return $this->hasMany(RiwayatKuis::class);
     }
+
+    public function getStatusLabelAttribute()
+    {
+        return match ($this->status) {
+            'draft' => 'Draf',
+            'published' => 'Dipublikasikan',
+            'rejected' => 'Ditolak',
+            default => '-',
+        };
+    }
 }

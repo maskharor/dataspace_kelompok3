@@ -8,22 +8,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-    body {
-        font-family: 'Inter', sans-serif;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-    }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
 
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
-    }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background-color: #1f232b;
-        border-radius: 10px;
-    }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #1f232b;
+            border-radius: 10px;
+        }
     </style>
 </head>
 
@@ -48,7 +48,7 @@
             </div>
 
             <nav class="p-4 space-y-1">
-                <a href="dashboard"
+                <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -57,7 +57,7 @@
                     </svg>
                     Dashboard
                 </a>
-                <a href="modul"
+                <a href="{{ route('admin.modul') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -66,7 +66,7 @@
                     </svg>
                     Modul
                 </a>
-                <a href="kuis"
+                <a href="{{ route('admin.kuis') }}"
                     class="flex items-center gap-3 bg-[#1e232d] border border-blue-500/30 text-blue-400 px-4 py-3 rounded-lg font-medium transition shadow-[0_0_15px_rgba(59,130,246,0.1)]">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -76,7 +76,7 @@
                     Kuis
                     <span class="ml-auto text-blue-500">›</span>
                 </a>
-                <a href="pengguna"
+                <a href="{{ route('admin.pengguna') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -85,7 +85,7 @@
                     </svg>
                     Pengguna
                 </a>
-                <a href="pengaturan"
+                <a href="{{ route('admin.pengaturan') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -114,10 +114,14 @@
     <main class="flex-1 flex flex-col h-screen overflow-hidden">
 
         <header class="h-20 border-b border-gray-800 flex items-center justify-end px-8 shrink-0 bg-[#0f1115]">
-            <button
+            <a href="{{ route('home') }}"
                 class="flex items-center gap-2 px-4 py-2 bg-[#1e232d] text-gray-300 rounded-lg text-sm border border-gray-700 hover:text-white transition">
-                <span>←</span> Ke Situs
-            </button>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Ke Situs
+            </a>
         </header>
 
         <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
@@ -187,7 +191,8 @@
 
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1 relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
+                        <div
+                            class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -201,7 +206,8 @@
                         <button id="filterBtn"
                             class="w-full flex items-center justify-between px-4 py-3 bg-[#14171d] border border-gray-800 rounded-xl text-sm text-white hover:border-gray-600 transition">
                             <span id="filterText">Semua Status</span>
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -235,22 +241,22 @@
                                     class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Aktif</span>
                             </div>
                             <div class="flex items-center gap-3 text-gray-500">
-                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                         </path>
                                     </svg></button>
-                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                         </path>
                                     </svg></button>
-                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                         </path>
@@ -326,22 +332,22 @@
                                     class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Aktif</span>
                             </div>
                             <div class="flex items-center gap-3 text-gray-500">
-                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                         </path>
                                     </svg></button>
-                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                         </path>
                                     </svg></button>
-                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                         </path>
@@ -417,22 +423,22 @@
                                     class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#1e232d] text-gray-400 border border-gray-700">Draft</span>
                             </div>
                             <div class="flex items-center gap-3 text-gray-500">
-                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                         </path>
                                     </svg></button>
-                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                         </path>
                                     </svg></button>
-                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                         </path>
@@ -782,87 +788,87 @@
     </main>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Fungsi untuk membuka modal
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            const modalBox = modal.querySelector('div.transform');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fungsi untuk membuka modal
+            function openModal(modalId) {
+                const modal = document.getElementById(modalId);
+                const modalBox = modal.querySelector('div.transform');
 
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalBox.classList.remove('scale-95');
-                modalBox.classList.add('scale-100');
-            }, 10);
-        }
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalBox.classList.remove('scale-95');
+                    modalBox.classList.add('scale-100');
+                }, 10);
+            }
 
-        // Fungsi untuk menutup modal
-        function closeModal(modal) {
-            const modalBox = modal.querySelector('div.transform');
+            // Fungsi untuk menutup modal
+            function closeModal(modal) {
+                const modalBox = modal.querySelector('div.transform');
 
-            modal.classList.add('opacity-0');
-            modalBox.classList.remove('scale-100');
-            modalBox.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
+                modal.classList.add('opacity-0');
+                modalBox.classList.remove('scale-100');
+                modalBox.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
 
-        // 1. Tombol Tambah Modul Utama
-        document.getElementById('openModalBtn').addEventListener('click', () => openModal('tambahModulModal'));
+            // 1. Tombol Tambah Modul Utama
+            document.getElementById('openModalBtn').addEventListener('click', () => openModal('tambahModulModal'));
 
-        // 2. Tombol Aksi di dalam Tabel
-        document.querySelectorAll('.btn-view').forEach(btn => {
-            btn.addEventListener('click', () => openModal('viewModulModal'));
-        });
-        document.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', () => openModal('editModulModal'));
-        });
-        document.querySelectorAll('.btn-hapus').forEach(btn => {
-            btn.addEventListener('click', () => openModal('hapusModulModal'));
-        });
-
-        // 3. Logika Penutup untuk SEMUA Modal
-        const allModals = document.querySelectorAll('.modal-container, #tambahModulModal');
-        allModals.forEach(modal => {
-            // Tutup saat tombol 'Batal' / 'Tutup' / 'X' diklik
-            const closeBtns = modal.querySelectorAll(
-                '.close-modal-btn, #closeModalBtn, #cancelModalBtn');
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', () => closeModal(modal));
+            // 2. Tombol Aksi di dalam Tabel
+            document.querySelectorAll('.btn-view').forEach(btn => {
+                btn.addEventListener('click', () => openModal('viewModulModal'));
+            });
+            document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', () => openModal('editModulModal'));
+            });
+            document.querySelectorAll('.btn-hapus').forEach(btn => {
+                btn.addEventListener('click', () => openModal('hapusModulModal'));
             });
 
-            // Tutup saat area gelap luar diklik
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal(modal);
-                }
+            // 3. Logika Penutup untuk SEMUA Modal
+            const allModals = document.querySelectorAll('.modal-container, #tambahModulModal');
+            allModals.forEach(modal => {
+                // Tutup saat tombol 'Batal' / 'Tutup' / 'X' diklik
+                const closeBtns = modal.querySelectorAll(
+                    '.close-modal-btn, #closeModalBtn, #cancelModalBtn');
+                closeBtns.forEach(btn => {
+                    btn.addEventListener('click', () => closeModal(modal));
+                });
+
+                // Tutup saat area gelap luar diklik
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal(modal);
+                    }
+                });
             });
         });
-    });
 
-    // Dropdown Filter Status
-    const filterBtn = document.getElementById('filterBtn');
-    const filterMenu = document.getElementById('filterMenu');
-    const filterText = document.getElementById('filterText');
+        // Dropdown Filter Status
+        const filterBtn = document.getElementById('filterBtn');
+        const filterMenu = document.getElementById('filterMenu');
+        const filterText = document.getElementById('filterText');
 
-    filterBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        filterMenu.classList.toggle('hidden');
-    });
+        filterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            filterMenu.classList.toggle('hidden');
+        });
 
-    document.querySelectorAll('.filter-option').forEach(option => {
-        option.addEventListener('click', function() {
-            filterText.textContent = this.getAttribute('data-value');
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                filterText.textContent = this.getAttribute('data-value');
+                filterMenu.classList.add('hidden');
+                // Di sini kamu bisa tambahkan logika filter data tabel kuis
+            });
+        });
+
+        // Tutup dropdown jika klik di luar
+        document.addEventListener('click', () => {
             filterMenu.classList.add('hidden');
-            // Di sini kamu bisa tambahkan logika filter data tabel kuis
         });
-    });
-
-    // Tutup dropdown jika klik di luar
-    document.addEventListener('click', () => {
-        filterMenu.classList.add('hidden');
-    });
     </script>
 </body>
 

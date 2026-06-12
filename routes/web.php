@@ -3,6 +3,10 @@
     use App\Http\Controllers\AuthController;
     use App\Http\Controllers\Admin\AdminDashboardController;
     use App\Http\Controllers\Admin\AdminModulController;
+    use App\Http\Controllers\Admin\AdminPenggunaController;
+    use App\Http\Controllers\Admin\AdminPengaturanController;
+    use App\Http\Controllers\Instructor\DosenDashboardController;
+    use App\Http\Controllers\Instructor\DosenModulController;
     use App\Http\Controllers\MateriController;
     use App\Http\Controllers\QuizController;
     use Illuminate\Support\Facades\Auth;
@@ -66,7 +70,7 @@
             }
 
             if ($user->role === 'dosen') {
-                return redirect()->route('Instructor.dashboard');
+                return redirect()->route('dosen.dashboard');
             }
 
             if ($user->role === 'mahasiswa') {
@@ -103,65 +107,116 @@
     | ADMIN
     |--------------------------------------------------------------------------
     */
-   Route::middleware(['auth', 'role:admin'])
-    ->prefix('admin')
-    ->name('admin.')
-    ->group(function () {
-        Route::get(
-            '/dashboard',
-            [AdminDashboardController::class, 'index']
-        )->name('dashboard');
+    Route::middleware(['auth', 'role:admin'])
+        ->prefix('admin')
+        ->name('admin.')
+        ->group(function () {
+            Route::get(
+                '/dashboard',
+                [AdminDashboardController::class, 'index']
+            )->name('dashboard');
 
-        /*
+            /*
         |--------------------------------------------------------------------------
         | MODUL CRUD
         |--------------------------------------------------------------------------
         */
-        Route::get(
-            '/modul',
-            [AdminModulController::class, 'index']
-        )->name('modul');
+            Route::get(
+                '/modul',
+                [AdminModulController::class, 'index']
+            )->name('modul');
 
-        Route::post(
-            '/modul',
-            [AdminModulController::class, 'store']
-        )->name('modul.store');
+            Route::post(
+                '/modul',
+                [AdminModulController::class, 'store']
+            )->name('modul.store');
 
-        Route::get(
-            '/modul/{modul}',
-            [AdminModulController::class, 'show']
-        )->name('modul.show');
+            Route::get(
+                '/modul/{modul}',
+                [AdminModulController::class, 'show']
+            )->name('modul.show');
 
-        Route::put(
-            '/modul/{modul}',
-            [AdminModulController::class, 'update']
-        )->name('modul.update');
+            Route::put(
+                '/modul/{modul}',
+                [AdminModulController::class, 'update']
+            )->name('modul.update');
 
-        Route::delete(
-            '/modul/{modul}',
-            [AdminModulController::class, 'destroy']
-        )->name('modul.destroy');
+            Route::delete(
+                '/modul/{modul}',
+                [AdminModulController::class, 'destroy']
+            )->name('modul.destroy');
 
-        /*
+            /*
         |--------------------------------------------------------------------------
-        | HALAMAN ADMIN LAIN
+        | PENGGUNA CRUD
         |--------------------------------------------------------------------------
         */
-        Route::get('/pengguna', function () {
-            return view('Admin.pengguna');
-        })->name('pengguna');
+            Route::get(
+                '/pengguna',
+                [AdminPenggunaController::class, 'index']
+            )->name('pengguna');
 
-        Route::get('/pengaturan', function () {
-            return view('Admin.pengaturan');
-        })->name('pengaturan');
+            Route::get(
+                '/pengguna/{user}',
+                [AdminPenggunaController::class, 'show']
+            )->name('pengguna.show');
 
-        Route::get('/kuis', function () {
-            return view('Admin.kuis');
-        })->name('kuis');
-    });
+            Route::put(
+                '/pengguna/{user}',
+                [AdminPenggunaController::class, 'update']
+            )->name('pengguna.update');
 
-    Route::prefix('dosen')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('Instructor.dashboard');
-        })->name('Instructor.dashboard');
-    });
+            Route::delete(
+                '/pengguna/{user}',
+                [AdminPenggunaController::class, 'destroy']
+            )->name('pengguna.destroy');
+            /*
+        |--------------------------------------------------------------------------
+        | PENGATURAN CRUD
+        |--------------------------------------------------------------------------
+        */
+            Route::get(
+                '/pengaturan',
+                [AdminPengaturanController::class, 'index']
+            )->name('pengaturan');
+
+            Route::put(
+                '/pengaturan/profile',
+                [AdminPengaturanController::class, 'updateProfile']
+            )->name('pengaturan.profile');
+
+            Route::put(
+                '/pengaturan/password',
+                [AdminPengaturanController::class, 'updatePassword']
+            )->name('pengaturan.password');
+
+            Route::get('/kuis', function () {
+                return view('Admin.kuis');
+            })->name('kuis');
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | DOSEN
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware(['auth', 'role:dosen'])
+        ->prefix('dosen')
+        ->name('dosen.')
+        ->group(function () {
+
+            Route::get(
+                '/dashboard',
+                [DosenDashboardController::class, 'index']
+            )->name('dashboard');
+
+            Route::get(
+                '/modul/{modul}',
+                [DosenModulController::class, 'show']
+            )->name('modul.show');
+
+            Route::put(
+                '/modul/{modul}/review',
+                [DosenModulController::class, 'review']
+            )->name('modul.review');
+        });

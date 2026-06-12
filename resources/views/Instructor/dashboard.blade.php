@@ -8,22 +8,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-    body {
-        font-family: 'Inter', sans-serif;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-    }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
 
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
-    }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background-color: #1f232b;
-        border-radius: 10px;
-    }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #1f232b;
+            border-radius: 10px;
+        }
     </style>
 </head>
 
@@ -64,29 +64,33 @@
         <div class="p-4">
             <div class="bg-[#1e232d] rounded-xl p-3 flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-black font-bold">
-                    J</div>
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
                 <div class="overflow-hidden">
-                    <p class="text-white text-sm font-semibold truncate">Mr. Jefry</p>
-                    <p class="text-gray-500 text-xs truncate">instructor@dataspace.id</p>
+                    <p class="text-white text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
+                    <p class="text-gray-500 text-xs truncate">{{ Auth::user()->email }}</p>
                 </div>
             </div>
         </div>
     </aside>
 
     <main class="flex-1 flex flex-col h-screen overflow-hidden">
-
         <header class="h-20 border-b border-gray-800 flex items-center justify-end px-8 shrink-0">
-            <button
+            <a href="{{ route('home') }}"
                 class="flex items-center gap-2 px-4 py-2 bg-[#1e232d] text-gray-300 rounded-lg text-sm border border-gray-700 hover:text-white transition">
-                <span>←</span> Ke Situs
-            </button>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Ke Situs
+            </a>
         </header>
 
         <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
             <div class="max-w-5xl mx-auto space-y-8">
 
                 <div>
-                    <h2 class="text-3xl font-bold text-white mb-2">Selamat datang kembali, Mr. Jefry!</h2>
+                    <h2 class="text-3xl font-bold text-white mb-2">Selamat datang kembali, {{ Auth::user()->name }}!!
+                    </h2>
                     <p class="text-gray-400 text-sm">Berikut adalah daftar modul yang perlu Anda tinjau dan validasi.
                     </p>
                 </div>
@@ -103,7 +107,9 @@
                         </div>
                         <div>
                             <p class="text-gray-400 text-sm font-medium mb-0.5">Total Modul</p>
-                            <h3 class="text-3xl font-bold text-white">2</h3>
+                            <h3 class="text-3xl font-bold text-white">
+                                {{ $totalModul }}
+                            </h3>
                         </div>
                     </div>
                     <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 flex items-center gap-5">
@@ -116,7 +122,9 @@
                         </div>
                         <div>
                             <p class="text-gray-400 text-sm font-medium mb-0.5">Dipublikasi</p>
-                            <h3 class="text-3xl font-bold text-white">1</h3>
+                            <h3 class="text-3xl font-bold text-white">
+                                {{ $publishedModul }}
+                            </h3>
                         </div>
                     </div>
                     <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 flex items-center gap-5">
@@ -128,263 +136,324 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-gray-400 text-sm font-medium mb-0.5">Menunggu Tinjauan (Draf)</p>
-                            <h3 class="text-3xl font-bold text-white">1</h3>
+                            <p class="text-gray-400 text-sm font-medium mb-0.5">Menunggu Tinjauan)</p>
+                            <h3 class="text-3xl font-bold text-white">
+                                {{ $draftModul }}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 flex items-center gap-5">
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium mb-0.5">Ditolak)</p>
+                            <h3 class="text-3xl font-bold text-white">
+                                {{ $rejectedModul }}
+                            </h3>
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-[#14171d] border border-gray-800 rounded-2xl mb-10 pb-10">
                     <div class="px-8 py-6 border-b border-gray-800">
                         <h3 class="text-lg font-bold text-white">Daftar Modul</h3>
                     </div>
-
                     <div class="divide-y divide-gray-800">
-
-                        <div
-                            class="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-[#1a1e28] transition">
-                            <div class="flex items-start gap-5">
-                                <div
-                                    class="w-12 h-12 rounded-xl bg-[#1e232d] border border-gray-700 flex items-center justify-center text-gray-400 shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-medium text-white mb-1">Pengantar React</h4>
-                                    <p class="text-gray-400 text-sm mb-3">Pelajari dasar-dasar React, komponen, dan
-                                        state.</p>
-                                    <div class="flex items-center gap-4 text-sm">
-                                        <span class="text-gray-500">Diunggah: 5/6/2026</span>
-                                        <a href="#"
-                                            class="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 transition">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                </path>
-                                            </svg>
-                                            Lihat Detail & Pratinjau
-                                        </a>
+                        @forelse($moduls as $modul)
+                            @php
+                                $statusConfig = match ($modul->status) {
+                                    'published' => [
+                                        'label' => 'Dipublikasikan',
+                                        'button' =>
+                                            'bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20',
+                                    ],
+                                    'rejected' => [
+                                        'label' => 'Ditolak',
+                                        'button' => 'bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20',
+                                    ],
+                                    default => [
+                                        'label' => 'Draf',
+                                        'button' =>
+                                            'bg-yellow-500/10 text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/20',
+                                    ],
+                                };
+                            @endphp
+                            <div
+                                class="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-[#1a1e28] transition">
+                                <div class="flex items-start gap-5">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-[#1e232d] border border-gray-700 flex items-center justify-center text-gray-400 shrink-0">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xl font-medium text-white mb-1">
+                                            {{ $modul->judul }}
+                                        </h4>
+                                        <p class="text-gray-400 text-sm mb-3">
+                                            {{ $modul->deskripsi ?? 'Tidak ada deskripsi.' }}
+                                        </p>
+                                        <div class="flex items-center gap-4 text-sm">
+                                            <span class="text-gray-500">
+                                                Diunggah:
+                                                {{ $modul->created_at->format('d/m/Y') }}
+                                            </span>
+                                            <button type="button"
+                                                class="btn-review flex items-center gap-1.5 text-blue-400 hover:text-blue-300 transition"
+                                                data-id="{{ $modul->id }}">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+                                                    </path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                    </path>
+                                                </svg>
+                                                Review Modul
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="relative inline-block text-left dropdown-container">
-                                <button type="button"
-                                    class="dropdown-button flex items-center justify-between w-36 px-4 py-2 rounded-full text-sm font-medium border transition whitespace-nowrap shrink-0 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20">
-                                    <span class="dropdown-text">Dipublikasi</span>
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </button>
-
-                                <div
-                                    class="dropdown-menu hidden absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-[#1e232d] border border-gray-700 shadow-xl overflow-hidden z-20">
-                                    <ul class="py-1 text-sm text-gray-300">
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-emerald-400 transition"
-                                                data-value="Dipublikasi">Dipublikasi</button></li>
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-yellow-400 transition"
-                                                data-value="Draft">Draft</button></li>
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-red-400 transition"
-                                                data-value="Ditolak">Ditolak</button></li>
-                                    </ul>
+                                <div>
+                                    <span
+                                        class="flex items-center justify-center w-36 px-4 py-2 rounded-full text-sm font-medium border whitespace-nowrap {{ $statusConfig['button'] }}">
+                                        {{ $statusConfig['label'] }}
+                                    </span>
                                 </div>
                             </div>
+                        @empty
+                            <div class="p-8 text-center text-gray-500">
+                                Belum ada modul tersedia.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="reviewModal"
+            class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+
+            <div class="bg-[#14171d] border border-gray-800 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+
+                <div class="p-6 border-b border-gray-800 flex items-center justify-between">
+
+                    <h3 class="text-xl font-semibold text-white">
+                        Review Modul
+                    </h3>
+
+                    <button id="closeReviewModal" class="text-gray-400 hover:text-white text-2xl">
+                        ×
+                    </button>
+
+                </div>
+
+                <form id="reviewForm" method="POST">
+
+                    @csrf
+                    @method('PUT')
+
+                    <div class="p-6 overflow-y-auto max-h-[70vh] space-y-6">
+
+                        <div>
+                            <label class="text-gray-400 text-sm">
+                                Judul Modul
+                            </label>
+
+                            <input id="reviewJudul" type="text" readonly
+                                class="w-full mt-2 bg-[#1e232d] border border-gray-700 rounded-lg px-4 py-3 text-white">
                         </div>
 
-                        <div
-                            class="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-[#1a1e28] transition">
-                            <div class="flex items-start gap-5">
-                                <div
-                                    class="w-12 h-12 rounded-xl bg-[#1e232d] border border-gray-700 flex items-center justify-center text-gray-400 shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-medium text-white mb-1">Tailwind CSS Lanjutan</h4>
-                                    <p class="text-gray-400 text-sm mb-3">Kuasai framework CSS utility-first untuk
-                                        pengembangan UI yang cepat.</p>
-                                    <div class="flex items-center gap-4 text-sm">
-                                        <span class="text-gray-500">Diunggah: 7/6/2026</span>
-                                        <a href="#"
-                                            class="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 transition">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                </path>
-                                            </svg>
-                                            Lihat Detail & Pratinjau
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                            <label class="text-gray-400 text-sm">
+                                Deskripsi
+                            </label>
 
-                            <div class="relative inline-block text-left dropdown-container">
-                                <button type="button"
-                                    class="dropdown-button flex items-center justify-between w-36 px-4 py-2 rounded-full text-sm font-medium border transition whitespace-nowrap shrink-0 bg-yellow-500/10 text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/20">
-                                    <span class="dropdown-text">Draft</span>
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </button>
-
-                                <div
-                                    class="dropdown-menu hidden absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-[#1e232d] border border-gray-700 shadow-xl overflow-hidden z-20">
-                                    <ul class="py-1 text-sm text-gray-300">
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-emerald-400 transition"
-                                                data-value="Dipublikasi">Dipublikasi</button></li>
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-yellow-400 transition"
-                                                data-value="Draft">Draft</button></li>
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-red-400 transition"
-                                                data-value="Ditolak">Ditolak</button></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <textarea id="reviewDeskripsi" readonly rows="3"
+                                class="w-full mt-2 bg-[#1e232d] border border-gray-700 rounded-lg px-4 py-3 text-white"></textarea>
                         </div>
 
-                        <div
-                            class="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-[#1a1e28] transition">
-                            <div class="flex items-start gap-5">
-                                <div
-                                    class="w-12 h-12 rounded-xl bg-[#1e232d] border border-gray-700 flex items-center justify-center text-gray-400 shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-medium text-white mb-1">Tailwind CSS Dasar</h4>
-                                    <p class="text-gray-400 text-sm mb-3">Kuasai framework CSS utility-first untuk
-                                        pengembangan UI yang cepat.</p>
-                                    <div class="flex items-center gap-4 text-sm">
-                                        <span class="text-gray-500">Diunggah: 7/6/2026</span>
-                                        <a href="#"
-                                            class="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 transition">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                </path>
-                                            </svg>
-                                            Lihat Detail & Pratinjau
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                            <label class="text-gray-400 text-sm">
+                                Konten Materi
+                            </label>
 
-                            <div class="relative inline-block text-left dropdown-container">
-                                <button type="button"
-                                    class="dropdown-button flex items-center justify-between w-36 px-4 py-2 rounded-full text-sm font-medium border transition whitespace-nowrap shrink-0 bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20">
-                                    <span class="dropdown-text">Ditolak</span>
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </button>
+                            <textarea id="reviewKonten" readonly rows="8"
+                                class="w-full mt-2 bg-[#1e232d] border border-gray-700 rounded-lg px-4 py-3 text-white"></textarea>
+                        </div>
 
-                                <div
-                                    class="dropdown-menu hidden absolute right-0 mt-2 w-36 origin-top-right rounded-xl bg-[#1e232d] border border-gray-700 shadow-xl overflow-hidden z-20">
-                                    <ul class="py-1 text-sm text-gray-300">
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-emerald-400 transition"
-                                                data-value="Dipublikasi">Dipublikasi</button></li>
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-yellow-400 transition"
-                                                data-value="Draft">Draft</button></li>
-                                        <li><button type="button"
-                                                class="dropdown-item w-full text-left px-4 py-2 hover:bg-[#2a303c] hover:text-red-400 transition"
-                                                data-value="Ditolak">Ditolak</button></li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div>
+                            <label class="text-gray-400 text-sm">
+                                Status Review
+                            </label>
+
+                            <select name="status" id="reviewStatus"
+                                class="w-full mt-2 bg-[#1e232d] border border-gray-700 rounded-lg px-4 py-3 text-white">
+
+                                <option value="draft">
+                                    Draf
+                                </option>
+
+                                <option value="published">
+                                    Dipublikasikan
+                                </option>
+
+                                <option value="rejected">
+                                    Ditolak
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="text-gray-400 text-sm">
+                                Catatan Revisi
+                            </label>
+
+                            <textarea name="catatan_revisi" id="reviewCatatan" rows="5" placeholder="Masukkan catatan revisi..."
+                                class="w-full mt-2 bg-[#1e232d] border border-gray-700 rounded-lg px-4 py-3 text-white"></textarea>
                         </div>
 
                     </div>
-                </div>
 
+                    <div class="p-6 border-t border-gray-800 flex justify-end gap-3">
+
+                        <button type="button" id="cancelReviewBtn"
+                            class="px-5 py-2 bg-[#1e232d] border border-gray-700 rounded-lg text-gray-300 hover:text-white">
+
+                            Batal
+
+                        </button>
+
+                        <button type="submit" class="px-5 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
+
+                            Simpan Review
+
+                        </button>
+
+                    </div>
+
+                </form>
             </div>
         </div>
     </main>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Mapping class warna untuk Tailwind CSS
-        const colorClasses = {
-            'Dipublikasi': 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20',
-            'Draft': 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/20',
-            'Ditolak': 'bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20'
-        };
+        document.addEventListener('DOMContentLoaded', () => {
 
-        const baseBtnClasses =
-            'dropdown-button flex items-center justify-between w-36 px-4 py-2 rounded-full text-sm font-medium border transition whitespace-nowrap shrink-0';
+            const modal =
+                document.getElementById('reviewModal');
 
-        const dropdownContainers = document.querySelectorAll('.dropdown-container');
+            const reviewForm =
+                document.getElementById('reviewForm');
 
-        dropdownContainers.forEach(container => {
-            const button = container.querySelector('.dropdown-button');
-            const menu = container.querySelector('.dropdown-menu');
-            const textSpan = button.querySelector('.dropdown-text');
-            const items = container.querySelectorAll('.dropdown-item');
+            const closeBtn =
+                document.getElementById('closeReviewModal');
 
-            // Saat Tombol Diklik (Buka/Tutup Menu)
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
+            const cancelBtn =
+                document.getElementById('cancelReviewBtn');
 
-                // Tutup dropdown lain yang sedang terbuka
-                document.querySelectorAll('.dropdown-menu').forEach(m => {
-                    if (m !== menu) m.classList.add('hidden');
+            function openModal() {
+                modal.classList.remove('hidden');
+            }
+
+            function closeModal() {
+                modal.classList.add('hidden');
+            }
+
+            closeBtn.addEventListener(
+                'click',
+                closeModal
+            );
+
+            cancelBtn.addEventListener(
+                'click',
+                closeModal
+            );
+
+            modal.addEventListener('click', (e) => {
+
+                if (e.target === modal) {
+                    closeModal();
+                }
+
+            });
+
+            document.querySelectorAll('.btn-review')
+                .forEach(button => {
+
+                    button.addEventListener(
+                        'click',
+                        async () => {
+
+                            const modulId =
+                                button.dataset.id;
+
+                            try {
+
+                                const response =
+                                    await fetch(
+                                        `/dosen/modul/${modulId}`
+                                    );
+
+                                const modul =
+                                    await response.json();
+
+                                document.getElementById(
+                                        'reviewJudul'
+                                    ).value =
+                                    modul.judul ?? '';
+
+                                document.getElementById(
+                                        'reviewDeskripsi'
+                                    ).value =
+                                    modul.deskripsi ?? '';
+
+                                document.getElementById(
+                                        'reviewKonten'
+                                    ).value =
+                                    modul.konten_teks ?? '';
+
+                                document.getElementById(
+                                        'reviewStatus'
+                                    ).value =
+                                    modul.status ?? 'draft';
+
+                                document.getElementById(
+                                        'reviewCatatan'
+                                    ).value =
+                                    modul.catatan_revisi ?? '';
+
+                                reviewForm.action =
+                                    `/dosen/modul/${modulId}/review`;
+
+                                openModal();
+
+                            } catch (error) {
+
+                                console.error(error);
+
+                                alert(
+                                    'Gagal memuat data modul.'
+                                );
+
+                            }
+
+                        }
+                    );
+
                 });
 
-                // Toggle menu ini
-                menu.classList.toggle('hidden');
-            });
-
-            // Saat Item Menu Dipilih
-            items.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.stopPropagation();
-
-                    const selectedValue = item.getAttribute('data-value');
-
-                    // 1. Ganti Text di Tombol
-                    textSpan.textContent = selectedValue;
-
-                    // 2. Ganti Warna Background & Text sesuai status
-                    button.className =
-                        `${baseBtnClasses} ${colorClasses[selectedValue]}`;
-
-                    // 3. Sembunyikan Menu
-                    menu.classList.add('hidden');
-                });
-            });
         });
-
-        // Tutup dropdown kalau area di luar diklik
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                menu.classList.add('hidden');
-            });
-        });
-    });
     </script>
 </body>
 

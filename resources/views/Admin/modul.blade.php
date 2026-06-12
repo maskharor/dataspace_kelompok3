@@ -60,7 +60,7 @@
                     Modul
                     <span class="ml-auto text-blue-500">›</span>
                 </a>
-                <a href="kuis"
+                <a href="{{ route('admin.kuis') }}"
                     class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-[#1e232d] px-4 py-3 rounded-lg font-medium transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -118,7 +118,11 @@
         <header class="h-20 border-b border-gray-800 flex items-center justify-end px-8 shrink-0">
             <a href="{{ route('home') }}"
                 class="flex items-center gap-2 px-4 py-2 bg-[#1e232d] text-gray-300 rounded-lg text-sm border border-gray-700 hover:text-white transition">
-                <span>←</span> Ke Situs
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Ke Situs
             </a>
         </header>
 
@@ -145,7 +149,8 @@
                     <form method="GET" action="{{ route('admin.modul') }}" class="relative flex-1">
 
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
@@ -518,6 +523,25 @@
                         <video id="detailVideo" controls class="w-full rounded-lg hidden">
                         </video>
                     </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">
+                            Status Review
+                        </p>
+
+                        <div id="detailStatus">
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">
+                            Catatan Dosen
+                        </p>
+
+                        <div id="detailCatatan"
+                            class="text-gray-300 text-sm whitespace-pre-wrap bg-[#1e232d] border border-gray-700 rounded-lg p-3">
+                            Belum ada catatan.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -538,31 +562,24 @@
                 </div>
                 <div class="p-6 overflow-y-auto custom-scrollbar">
                     <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-5">
-
                         @csrf
                         @method('PUT')
-
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-2">
                                 Judul Modul
                             </label>
-
                             <input id="editJudul" name="judul" type="text" required
                                 class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
                         </div>
-
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-2">
                                 Kategori
                             </label>
-
                             <select id="editKategori" name="kategori"
                                 class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
-
                                 <option value="pemula">Pemula</option>
                                 <option value="menengah">Menengah</option>
                                 <option value="lanjut">Lanjut</option>
-
                             </select>
                         </div>
 
@@ -570,7 +587,6 @@
                             <label class="block text-sm font-medium text-gray-300 mb-2">
                                 Deskripsi
                             </label>
-
                             <textarea id="editDeskripsi" name="deskripsi" rows="3"
                                 class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300"></textarea>
                         </div>
@@ -579,7 +595,6 @@
                             <label class="block text-sm font-medium text-gray-300 mb-2">
                                 Konten Materi
                             </label>
-
                             <textarea id="editKonten" name="konten_teks" rows="6"
                                 class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300"></textarea>
                         </div>
@@ -588,7 +603,6 @@
                             <label class="block text-sm font-medium text-gray-300 mb-2">
                                 File Materi
                             </label>
-
                             <input type="file" name="konten_file"
                                 class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
                         </div>
@@ -597,11 +611,9 @@
                             <label class="block text-sm font-medium text-gray-300 mb-2">
                                 Video Pembelajaran
                             </label>
-
                             <input type="file" name="video_path"
                                 class="w-full px-4 py-3 bg-[#1e232d] border border-gray-700 rounded-xl text-gray-300">
                         </div>
-
                     </form>
                 </div>
                 <div class="p-6 border-t border-gray-800 flex justify-end gap-3 bg-[#181b22] rounded-b-2xl shrink-0">
@@ -699,10 +711,41 @@
                             modul.deskripsi ?? '-';
                         document.getElementById('detailKonten').innerHTML =
                             modul.konten_teks ?? '-';
+                        document.getElementById('detailCatatan').textContent =
+                            modul.catatan_revisi ??
+                            'Belum ada catatan dari dosen.';
                         document.getElementById('detailKategori').innerHTML =
                             `<span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
                     ${modul.kategori}
                 </span>`;
+                        const statusElement =
+                            document.getElementById('detailStatus');
+
+                        let statusBadge = '';
+
+                        switch (modul.status) {
+
+                            case 'published':
+                                statusBadge = `
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
+                Dipublikasikan
+            </span>`;
+                                break;
+
+                            case 'rejected':
+                                statusBadge = `
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                Ditolak
+            </span>`;
+                                break;
+                            default:
+                                statusBadge = `
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+                Draf
+            </span>`;
+                        }
+
+                        statusElement.innerHTML = statusBadge;
                         const fileLink =
                             document.getElementById('detailFile');
                         if (modul.konten_file) {

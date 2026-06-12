@@ -22,7 +22,7 @@ class AuthController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-        
+
         if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
@@ -31,7 +31,7 @@ class AuthController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             else if (Auth::user()->role === 'dosen') {
-                return redirect()->route('Instructor.dashboard');
+                return redirect()->route('dosen.dashboard');
             }
 
             return redirect()->route('home');
@@ -58,7 +58,7 @@ class AuthController extends Controller
             'password.confirmed' => 'Konfirmasi kata sandi harus sama',
             'name.min' => 'Nama terlalu pendek (min 3 karakter)',
             'name.max' => 'Nama terlalu panjang (maks 255 karakter)',
-        ]); 
+        ]);
 
         User::create([
             'name' => $request->name,

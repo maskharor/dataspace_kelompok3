@@ -29,7 +29,7 @@
         <a href="{{ route('materi.index') }}" class="{{ request()->routeIs('materi.*') ? $currentClass : $defaultClass }}">
             Materi
         </a>
-       
+
         <a href="#" class="{{ request()->routeIs('quiz.*') ? $currentClass : $defaultClass }}">
             Quiz
         </a>
@@ -82,12 +82,12 @@
                      Dashboard
                 </a>
             @elseif(Auth::user()->role === 'dosen')
-                <a href="{{ route('Instructor.dashboard') }}"
+                <a href="{{ route('dosen.dashboard') }}"
                     class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 transition">
                     Dashboard
                 </a>
             @else
-                <a href="{{ route('dashboard') }}"class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 transition"> 
+                <a href="{{ route('dashboard') }}"class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 transition">
                     Dashboard
                 </a>
             @endif
