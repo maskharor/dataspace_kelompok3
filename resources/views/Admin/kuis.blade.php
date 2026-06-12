@@ -130,7 +130,9 @@
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                     <div>
                         <h2 class="text-3xl font-bold text-white mb-1">Kelola Kuis</h2>
-                        <p class="text-gray-400 text-sm">3 kuis · 2 aktif</p>
+                        <p class="text-gray-400 text-sm">
+                            {{ $totalKuis }} kuis · {{ $kuisAktif }} aktif
+                        </p>
                     </div>
                     <button id="openModalBtn"
                         class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 transition shadow-lg shadow-blue-500/20">
@@ -148,7 +150,9 @@
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-3xl font-bold text-white mb-1">3</h3>
+                        <h3 class="text-3xl font-bold text-white mb-1">
+                            {{ $totalKuis }}
+                        </h3>
                         <p class="text-sm text-gray-500">Total Kuis</p>
                     </div>
                     <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition">
@@ -159,7 +163,9 @@
                                     d="M5 13l4 4L19 7"></path>
                             </svg>
                         </div>
-                        <h3 class="text-3xl font-bold text-white mb-1">2</h3>
+                        <h3 class="text-3xl font-bold text-white mb-1">
+                            {{ $totalKuis }}
+                        </h3>
                         <p class="text-sm text-gray-500">Kuis Aktif</p>
                     </div>
                     <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition">
@@ -170,7 +176,9 @@
                                     d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                             </svg>
                         </div>
-                        <h3 class="text-3xl font-bold text-white mb-1">198</h3>
+                        <h3 class="text-3xl font-bold text-white mb-1">
+                            {{ $totalPercobaan }}
+                        </h3>
                         <p class="text-sm text-gray-500">Total Percobaan</p>
                     </div>
                     <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition">
@@ -184,7 +192,9 @@
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-3xl font-bold text-white mb-1">77%</h3>
+                        <h3 class="text-3xl font-bold text-white mb-1">
+                            {{ $rataRataSkor }}%
+                        </h3>
                         <p class="text-sm text-gray-500">Rata-rata Skor</p>
                     </div>
                 </div>
@@ -230,278 +240,192 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-                    <div
-                        class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition group flex flex-col">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="w-10 h-10 rounded-lg bg-[#1e232d] border border-gray-700 flex items-center justify-center text-gray-400">
-                                    🗄️</div>
-                                <span
-                                    class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Aktif</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-gray-500">
-                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                        </path>
-                                    </svg></button>
-                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                        </path>
-                                    </svg></button>
-                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg></button>
-                            </div>
-                        </div>
+                    @forelse($moduls as $modul)
+                        @php
+                            $jumlahSoal = $modul->soals->count();
 
-                        <h3 class="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition">Kuis:
-                            Pengenalan Basis Data</h3>
-                        <p class="text-gray-500 text-sm mb-5">Pengenalan Basis Data</p>
+                            $jumlahPercobaan = $modul->riwayatKuis->count();
+
+                            $avgSkor = round($modul->riwayatKuis->avg('skor_akhir') ?? 0);
+
+                            $statusColor = match ($modul->status) {
+                                'published' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                                'draft' => 'bg-gray-500/10 text-gray-400 border-gray-500/20',
+                                'rejected' => 'bg-red-500/10 text-red-400 border-red-500/20',
+                                default => 'bg-gray-500/10 text-gray-400 border-gray-500/20',
+                            };
+                        @endphp
 
                         <div
-                            class="bg-[#1e232d] rounded-xl p-4 flex justify-between items-center mb-5 mt-auto border border-gray-800">
-                            <div class="text-center flex-1 border-r border-gray-700/50">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-blue-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
-                                        </path>
-                                    </svg>
-                                    3
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Soal</p>
-                            </div>
-                            <div class="text-center flex-1 border-r border-gray-700/50">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-purple-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    10
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Menit</p>
-                            </div>
-                            <div class="text-center flex-1">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-yellow-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    70%
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Lulus</p>
-                            </div>
-                        </div>
+                            class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition group flex flex-col">
 
-                        <div class="flex justify-between items-end text-sm">
-                            <div class="flex gap-6">
+                            <div class="flex justify-between items-start mb-4">
+
+                                <div class="flex items-center gap-3">
+
+                                    <div
+                                        class="w-10 h-10 rounded-lg bg-[#1e232d]
+    border border-gray-700
+    flex items-center justify-center text-gray-400">
+
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                                            </path>
+
+                                        </svg>
+
+                                    </div>
+
+                                    <span
+                                        class="px-2.5 py-1 rounded-full text-[11px] font-medium border {{ $statusColor }}">
+                                        {{ $modul->status_label }}
+                                    </span>
+
+                                </div>
+
+                                <div class="flex items-center gap-3 text-gray-500">
+
+                                    <button class="btn-view hover:text-white transition"
+                                        data-id="{{ $modul->id }}">
+
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+                                            </path>
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5
+                12 5c4.478 0 8.268 2.943
+                9.542 7-1.274 4.057-5.064 7-9.542 7
+                -4.477 0-8.268-2.943-9.542-7z">
+                                            </path>
+
+                                        </svg>
+
+                                    </button>
+
+                                    <button class="btn-edit hover:text-blue-400 transition"
+                                        data-id="{{ $modul->id }}">
+
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+
+                                        </svg>
+
+                                    </button>
+
+                                    <button class="btn-hapus hover:text-red-400 transition"
+                                        data-id="{{ $modul->id }}">
+
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                            </path>
+
+                                        </svg>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <h3 class="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition">
+
+                                Kuis: {{ $modul->judul }}
+
+                            </h3>
+
+                            <p class="text-gray-500 text-sm mb-5">
+                                {{ $modul->judul }}
+                            </p>
+
+                            <div
+                                class="bg-[#1e232d] rounded-xl p-4 flex justify-between items-center mb-5 mt-auto border border-gray-800">
+
+                                <div class="text-center flex-1 border-r border-gray-700/50">
+
+                                    <div class="text-blue-400 font-bold text-lg">
+                                        {{ $jumlahSoal }}
+                                    </div>
+
+                                    <p class="text-[11px] text-gray-500 uppercase tracking-wide">
+                                        Soal
+                                    </p>
+
+                                </div>
+
+                                <div class="text-center flex-1 border-r border-gray-700/50">
+
+                                    <div class="text-purple-400 font-bold text-lg">
+                                        {{ $jumlahPercobaan }}
+                                    </div>
+
+                                    <p class="text-[11px] text-gray-500 uppercase tracking-wide">
+                                        Percobaan
+                                    </p>
+
+                                </div>
+
+                                <div class="text-center flex-1">
+
+                                    <div class="text-yellow-400 font-bold text-lg">
+                                        {{ $avgSkor }}%
+                                    </div>
+
+                                    <p class="text-[11px] text-gray-500 uppercase tracking-wide">
+                                        Avg Skor
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="flex justify-between items-end text-sm">
+
                                 <div>
-                                    <p class="text-gray-500 text-xs mb-0.5">Percobaan</p>
-                                    <p class="text-white font-medium">84</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 text-xs mb-0.5">Avg. Skor</p>
-                                    <p class="text-emerald-400 font-medium">78%</p>
-                                </div>
-                            </div>
-                            <span class="text-gray-600 text-xs">12 Mei 2026</span>
-                        </div>
-                    </div>
+                                    <p class="text-gray-500 text-xs mb-0.5">
+                                        Dibuat
+                                    </p>
 
-                    <div
-                        class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition group flex flex-col">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="w-10 h-10 rounded-lg bg-[#1e232d] border border-gray-700 flex items-center justify-center text-gray-400">
-                                    🔗</div>
-                                <span
-                                    class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Aktif</span>
+                                    <p class="text-white font-medium">
+                                        {{ $modul->created_at->format('d M Y') }}
+                                    </p>
+                                </div>
+
                             </div>
-                            <div class="flex items-center gap-3 text-gray-500">
-                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                        </path>
-                                    </svg></button>
-                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                        </path>
-                                    </svg></button>
-                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg></button>
-                            </div>
+
                         </div>
 
-                        <h3 class="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition">Kuis: Entity
-                            Relationship Diagram</h3>
-                        <p class="text-gray-500 text-sm mb-5">Entity Relationship Diagram</p>
+                    @empty
 
-                        <div
-                            class="bg-[#1e232d] rounded-xl p-4 flex justify-between items-center mb-5 mt-auto border border-gray-800">
-                            <div class="text-center flex-1 border-r border-gray-700/50">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-blue-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
-                                        </path>
-                                    </svg>
-                                    5
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Soal</p>
+                        <div class="col-span-2">
+
+                            <div class="bg-[#14171d] border border-gray-800 rounded-2xl p-10 text-center">
+
+                                <h3 class="text-white text-lg font-semibold mb-2">
+                                    Belum Ada Kuis
+                                </h3>
+
+                                <p class="text-gray-500">
+                                    Tambahkan soal pada modul terlebih dahulu.
+                                </p>
+
                             </div>
-                            <div class="text-center flex-1 border-r border-gray-700/50">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-purple-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    10
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Menit</p>
-                            </div>
-                            <div class="text-center flex-1">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-yellow-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    70%
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Lulus</p>
-                            </div>
+
                         </div>
+                    @endforelse
 
-                        <div class="flex justify-between items-end text-sm">
-                            <div class="flex gap-6">
-                                <div>
-                                    <p class="text-gray-500 text-xs mb-0.5">Percobaan</p>
-                                    <p class="text-white font-medium">53</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 text-xs mb-0.5">Avg. Skor</p>
-                                    <p class="text-emerald-400 font-medium">72%</p>
-                                </div>
-                            </div>
-                            <span class="text-gray-600 text-xs">15 Mei 2026</span>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-[#14171d] border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition group flex flex-col">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="w-10 h-10 rounded-lg bg-[#1e232d] border border-gray-700 flex items-center justify-center text-gray-400">
-                                    📊</div>
-                                <span
-                                    class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#1e232d] text-gray-400 border border-gray-700">Draft</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-gray-500">
-                                <button class="btn-view hover:text-white transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                        </path>
-                                    </svg></button>
-                                <button class="btn-edit hover:text-blue-400 transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                        </path>
-                                    </svg></button>
-                                <button class="btn-hapus hover:text-red-400 transition"><svg class="w-5 h-5"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg></button>
-                            </div>
-                        </div>
-
-                        <h3 class="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition">Kuis: Model
-                            Relasional</h3>
-                        <p class="text-gray-500 text-sm mb-5">Model Relasional</p>
-
-                        <div
-                            class="bg-[#1e232d] rounded-xl p-4 flex justify-between items-center mb-5 mt-auto border border-gray-800">
-                            <div class="text-center flex-1 border-r border-gray-700/50">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-blue-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
-                                        </path>
-                                    </svg>
-                                    1
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Soal</p>
-                            </div>
-                            <div class="text-center flex-1 border-r border-gray-700/50">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-purple-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    8
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Menit</p>
-                            </div>
-                            <div class="text-center flex-1">
-                                <div
-                                    class="flex items-center justify-center gap-1.5 text-yellow-400 font-bold text-lg mb-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    65%
-                                </div>
-                                <p class="text-[11px] text-gray-500 uppercase tracking-wide">Lulus</p>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-between items-end text-sm">
-                            <div class="flex gap-6">
-                                <div>
-                                    <p class="text-gray-500 text-xs mb-0.5">Percobaan</p>
-                                    <p class="text-white font-medium">61</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 text-xs mb-0.5">Avg. Skor</p>
-                                    <p class="text-emerald-400 font-medium">81%</p>
-                                </div>
-                            </div>
-                            <span class="text-gray-600 text-xs">18 Mei 2026</span>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -530,10 +454,14 @@
                             <select name="modul_id"
                                 class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition appearance-none"
                                 required>
-                                <option value="">-- Pilih Modul Terkait --</option>
-                                <option value="1">Pengenalan Basis Data</option>
-                                <option value="2">Entity Relationship Diagram</option>
-                                <option value="3">Model Relasional</option>
+                                <option value="">
+                                    -- Pilih Modul Terkait --
+                                </option>
+                                @foreach ($moduls as $modul)
+                                    <option value="{{ $modul->id }}">
+                                        {{ $modul->judul }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -691,9 +619,15 @@
                             <select name="modul_id"
                                 class="w-full px-4 py-2.5 bg-[#1e232d] border border-gray-700 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 transition appearance-none"
                                 required>
-                                <option value="1" selected>Pengenalan Basis Data</option>
-                                <option value="2">Entity Relationship Diagram</option>
-                                <option value="3">Model Relasional</option>
+                                <option value="">
+                                    -- Pilih Modul Terkait --
+                                </option>
+
+                                @foreach ($moduls as $modul)
+                                    <option value="{{ $modul->id }}">
+                                        {{ $modul->judul }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 

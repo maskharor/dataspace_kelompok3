@@ -4,6 +4,7 @@
     use App\Http\Controllers\Admin\AdminDashboardController;
     use App\Http\Controllers\Admin\AdminModulController;
     use App\Http\Controllers\Admin\AdminPenggunaController;
+    use App\Http\Controllers\Admin\AdminKuisController;
     use App\Http\Controllers\Admin\AdminPengaturanController;
     use App\Http\Controllers\Instructor\DosenDashboardController;
     use App\Http\Controllers\Instructor\DosenModulController;
@@ -33,7 +34,7 @@
         ->name('materi.index');
 
     Route::get('/quiz', [QuizController::class, 'list'])
-    ->name('quiz.index');
+        ->name('quiz.index');
     /*
     |--------------------------------------------------------------------------
     | GUEST ONLY
@@ -88,7 +89,6 @@
         Route::get('/materi/{id}', [MateriController::class, 'show'])
             ->name('materi.show');
 
-
         //Kuis
         Route::get('/quiz/{modul}', [QuizController::class, 'index'])
             ->name('quiz');
@@ -107,15 +107,14 @@
     });
 
     // mahasiswam
-   Route::middleware(['auth', 'role:mahasiswa'])
-    ->prefix('user')
-    ->name('user.')
-    ->group(function () {
+    Route::middleware(['auth', 'role:mahasiswa'])
+        ->prefix('user')
+        ->name('user.')
+        ->group(function () {
 
-        Route::get('/dashboard', [UserDashboardController::class, 'index'])
-            ->name('dashboard');
-
-    });
+            Route::get('/dashboard', [UserDashboardController::class, 'index'])
+                ->name('dashboard');
+        });
 
     // dosen
     Route::middleware(['auth', 'role:dosen'])
@@ -216,19 +215,30 @@
                 [AdminPengaturanController::class, 'updatePassword']
             )->name('pengaturan.password');
 
-            Route::get('/pengguna', function () {
-                return view('Admin.pengguna');
-            })->name('pengguna');
+            Route::get(
+                '/kuis',
+                [AdminKuisController::class, 'index']
+            )->name('kuis');
 
-            Route::get('/pengaturan', function () {
-                return view('Admin.pengaturan');
-            })->name('pengaturan');
-
-            Route::get('/kuis', function () {
-                return view('Admin.kuis');
-            })->name('kuis');
+            Route::post(
+                '/kuis',
+                [AdminKuisController::class, 'store']
+            )->name('kuis.store');
         });
+    Route::get(
+        '/kuis/{modul}',
+        [AdminKuisController::class, 'show']
+    )->name('kuis.show');
 
+    Route::put(
+        '/kuis/soal/{soal}',
+        [AdminKuisController::class, 'update']
+    )->name('kuis.update');
+
+    Route::delete(
+        '/kuis/soal/{soal}',
+        [AdminKuisController::class, 'destroy']
+    )->name('kuis.destroy');
     /*
     |--------------------------------------------------------------------------
     | DOSEN
