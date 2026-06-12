@@ -30,7 +30,7 @@
             Materi
         </a>
 
-        <a href="#" class="{{ request()->routeIs('quiz.*') ? $currentClass : $defaultClass }}">
+        <a href="{{ route('quiz.index') }}" class="{{ request()->routeIs('quiz.*') ? $currentClass : $defaultClass }}">
             Quiz
         </a>
 

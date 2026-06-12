@@ -9,6 +9,7 @@
     use App\Http\Controllers\Instructor\DosenModulController;
     use App\Http\Controllers\MateriController;
     use App\Http\Controllers\QuizController;
+    use App\Http\Controllers\UserDashboardController;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@
     Route::get('/materi', [MateriController::class, 'index'])
         ->name('materi.index');
 
+    Route::get('/quiz', [QuizController::class, 'list'])
+    ->name('quiz.index');
     /*
     |--------------------------------------------------------------------------
     | GUEST ONLY
@@ -74,11 +77,12 @@
             }
 
             if ($user->role === 'mahasiswa') {
-                return redirect()->route('materi.index');
+                return redirect()->route('user.dashboard');
             }
 
             return redirect()->route('home');
         })->name('dashboard');
+
 
         // Detail materi
         Route::get('/materi/{id}', [MateriController::class, 'show'])
@@ -101,6 +105,28 @@
         Route::post('/logout', [AuthController::class, 'logout'])
             ->name('logout');
     });
+
+    // mahasiswam
+   Route::middleware(['auth', 'role:mahasiswa'])
+    ->prefix('user')
+    ->name('user.')
+    ->group(function () {
+
+        Route::get('/dashboard', [UserDashboardController::class, 'index'])
+            ->name('dashboard');
+
+    });
+
+    // dosen
+    Route::middleware(['auth', 'role:dosen'])
+        ->prefix('dosen')
+        ->name('instructor.')
+        ->group(function () {
+
+            Route::get('/dashboard', function () {
+                return view('Instructor.dashboard');
+            })->name('dashboard');
+        });
 
     /*
     |--------------------------------------------------------------------------
@@ -189,6 +215,14 @@
                 '/pengaturan/password',
                 [AdminPengaturanController::class, 'updatePassword']
             )->name('pengaturan.password');
+
+            Route::get('/pengguna', function () {
+                return view('Admin.pengguna');
+            })->name('pengguna');
+
+            Route::get('/pengaturan', function () {
+                return view('Admin.pengaturan');
+            })->name('pengaturan');
 
             Route::get('/kuis', function () {
                 return view('Admin.kuis');

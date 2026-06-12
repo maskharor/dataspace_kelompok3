@@ -8,26 +8,26 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: #0d1117;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+        }
 
-    /* Warna spesifik menyesuaikan UI */
-    .bg-card {
-        background-color: #161b22;
-    }
+        /* Warna spesifik menyesuaikan UI */
+        .bg-card {
+            background-color: #161b22;
+        }
 
-    .border-line {
-        border-color: #30363d;
-    }
+        .border-line {
+            border-color: #30363d;
+        }
     </style>
 </head>
 
 <body class="text-gray-300 font-sans antialiased min-h-screen flex flex-col">
 
     <!-- TOP NAVBAR -->
-   @include('components.navbar')
+    @include('components.navbar')
 
     <!-- MAIN CONTENT -->
     <main class="flex-1 w-full max-w-6xl mx-auto py-10 px-6">
@@ -53,8 +53,13 @@
                     </svg>
                 </div>
                 <div class="flex items-end gap-2 mb-1">
-                    <h3 class="text-3xl font-bold text-white leading-none">3</h3>
-                    <span class="text-gray-500 text-sm mb-0.5">dari 6</span>
+                    <h3 class="text-3xl font-bold text-white leading-none">
+                        {{ $modulSelesai }}
+                    </h3>
+
+                    <span class="text-gray-500 text-sm mb-0.5">
+                        dari {{ $totalModul }}
+                    </span>
                 </div>
                 <p class="text-gray-400 text-sm">Modul Selesai</p>
             </div>
@@ -68,8 +73,8 @@
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-3xl font-bold text-white mb-1 leading-none">47</h3>
-                <p class="text-gray-400 text-sm">Total Soal Dikerjakan</p>
+                <h3 class="text-3xl font-bold text-white mb-1 leading-none">{{ $totalQuiz }}</h3>
+                <p class="text-gray-400 text-sm">Total Quiz Dikerjakan</p>
             </div>
 
             <!-- Stat 3 -->
@@ -81,7 +86,7 @@
                             d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                     </svg>
                 </div>
-                <h3 class="text-3xl font-bold text-white mb-1 leading-none">82%</h3>
+                <h3 class="text-3xl font-bold text-white mb-1 leading-none">{{ $rataSkor }}%</h3>
                 <p class="text-gray-400 text-sm">Rata-rata Skor</p>
             </div>
 
@@ -97,8 +102,13 @@
                             d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path>
                     </svg>
                 </div>
-                <h3 class="text-3xl font-bold text-white mb-1 leading-none">5</h3>
-                <p class="text-gray-400 text-sm">Streak Belajar (hari)</p>
+                <h3 class="text-3xl font-bold text-white mb-1 leading-none">
+                    {{ $lulus }}
+                </h3>
+
+                <p class="text-gray-400 text-sm">
+                    Quiz Lulus
+                </p>
             </div>
         </div>
 
@@ -108,21 +118,30 @@
             <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-transparent opacity-50"></div>
 
             <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+
+                @if($terakhir)
+
                 <div class="flex-1">
-                    <p class="text-blue-400 text-xs font-bold tracking-wider uppercase mb-2">Lanjutkan dari terakhir
-                        kali</p>
-                    <h3 class="text-2xl font-bold text-white mb-4">Entity Relationship Diagram</h3>
-                    <div class="flex items-center gap-4">
-                        <p class="text-sm text-gray-400 whitespace-nowrap">40% selesai</p>
-                        <div class="w-full max-w-sm bg-gray-800 rounded-full h-1.5">
-                            <div class="bg-blue-500 h-1.5 rounded-full" style="width: 40%"></div>
-                        </div>
-                    </div>
+
+                    <p class="text-blue-400 text-xs font-bold tracking-wider uppercase mb-2">
+                        Quiz Terakhir
+                    </p>
+
+                    <h3 class="text-2xl font-bold text-white mb-4">
+                        {{ $terakhir->modul->judul }}
+                    </h3>
+
+                    <p class="text-sm text-gray-400">
+                        Dikerjakan pada
+                        {{ $terakhir->created_at->format('d M Y') }}
+                    </p>
+
                 </div>
-                <a href="{{ route('materi.show', 6) }}"
+
+                <a href="{{ route('materi.show', $terakhir->modul_id) }}"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition whitespace-nowrap">
 
-                    Lanjutkan
+                    Lihat Materi
 
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round"
@@ -133,6 +152,34 @@
                     </svg>
 
                 </a>
+
+                @else
+
+                <div class="flex-1">
+
+                    <p class="text-blue-400 text-xs font-bold tracking-wider uppercase mb-2">
+                        Selamat Datang
+                    </p>
+
+                    <h3 class="text-2xl font-bold text-white mb-4">
+                        Belum ada aktivitas belajar
+                    </h3>
+
+                    <p class="text-sm text-gray-400">
+                        Mulailah mengerjakan kuis pertamamu.
+                    </p>
+
+                </div>
+
+                <a href="{{ route('materi.index') }}"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg">
+
+                    Jelajahi Materi
+
+                </a>
+
+                @endif
+
             </div>
         </div>
 
@@ -152,120 +199,41 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-700">
-                            <!-- Selesai -->
+                            @foreach($moduls as $modul)
+
+                            @php
+                            $selesai = in_array($modul->id, $modulSelesaiIds);
+                            @endphp
+
                             <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-4 flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg">
-                                        🗄️</div>
-                                    <span class="text-gray-200">Pengenalan Basis Data</span>
-                                </td>
+
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-                                        <span class="text-gray-300">100%</span>
-                                    </div>
+                                    <span class="text-gray-200">
+                                        {{ $modul->judul }}
+                                    </span>
                                 </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Selesai</span>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-4 flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg">
-                                        📊</div>
-                                    <span class="text-gray-200">Model Relasional</span>
-                                </td>
+
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-                                        <span class="text-gray-300">100%</span>
-                                    </div>
+                                    {{ $selesai ? '100%' : '0%' }}
                                 </td>
+
                                 <td class="px-6 py-4 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Selesai</span>
+
+                                    @if($selesai)
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                        Selesai
+                                    </span>
+                                    @else
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-400 border border-gray-700">
+                                        Belum Dimulai
+                                    </span>
+                                    @endif
+
                                 </td>
+
                             </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-4 flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
-                                        🌿</div>
-                                    <span class="text-gray-200">Entity Relationship Diagram</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-                                        <span class="text-gray-300">100%</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Selesai</span>
-                                </td>
-                            </tr>
-                            <!-- Sedang Dipelajari -->
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-4 flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
-                                        💠</div>
-                                    <span class="text-gray-200">Enhanced ERD (EERD)</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-2 h-2 rounded-full bg-blue-500/50"></div>
-                                        <span class="text-gray-300">40%</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Sedang
-                                        dipelajari</span>
-                                </td>
-                            </tr>
-                            <!-- Belum Dimulai -->
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-4 flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-lg bg-yellow-500/10 text-yellow-400 flex items-center justify-center text-lg">
-                                        🔻</div>
-                                    <span class="text-gray-200">Normalisasi (1NF - 3NF)</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-2 h-2 rounded-full bg-gray-600"></div>
-                                        <span class="text-gray-500">0%</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-400 border border-gray-700">Belum
-                                        dimulai</span>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-4 flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg">
-                                        💻</div>
-                                    <span class="text-gray-200">SQL Dasar</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-2 h-2 rounded-full bg-gray-600"></div>
-                                        <span class="text-gray-500">0%</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-400 border border-gray-700">Belum
-                                        dimulai</span>
-                                </td>
-                            </tr>
+
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -285,42 +253,49 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-700">
+
+                            @forelse($riwayat->take(5) as $item)
+
                             <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-5 text-gray-200">Kuis: ERD</td>
-                                <td class="px-6 py-5 text-gray-300">8/10</td>
-                                <td class="px-6 py-5 text-gray-400 text-xs">2 Mei<br>2026</td>
+
+                                <td class="px-6 py-5 text-gray-200">
+                                    Kuis: {{ $item->modul->judul }}
+                                </td>
+
+                                <td class="px-6 py-5 text-gray-300">
+                                    {{ round($item->skor_akhir) }}
+                                </td>
+
+                                <td class="px-6 py-5 text-gray-400 text-xs">
+                                    {{ $item->created_at->format('d M Y') }}
+                                </td>
+
                                 <td class="px-6 py-5 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Lulus</span>
+
+                                    @if($item->skor_akhir >= 70)
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                        Lulus
+                                    </span>
+                                    @else
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                                        Tidak Lulus
+                                    </span>
+                                    @endif
+
+                                </td>
+
+                            </tr>
+
+                            @empty
+
+                            <tr>
+                                <td colspan="4" class="px-6 py-6 text-center text-gray-400">
+                                    Belum ada riwayat kuis.
                                 </td>
                             </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-5 text-gray-200">Kuis: Model<br>Relasional</td>
-                                <td class="px-6 py-5 text-gray-300">9/10</td>
-                                <td class="px-6 py-5 text-gray-400 text-xs">1 Mei<br>2026</td>
-                                <td class="px-6 py-5 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Lulus</span>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-5 text-gray-200">Kuis: Pengenalan<br>Basis Data</td>
-                                <td class="px-6 py-5 text-gray-300">6/10</td>
-                                <td class="px-6 py-5 text-gray-400 text-xs">30 Apr<br>2026</td>
-                                <td class="px-6 py-5 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Lulus</span>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-800/30 transition">
-                                <td class="px-6 py-5 text-gray-200">Kuis: EERD</td>
-                                <td class="px-6 py-5 text-gray-300">7/10</td>
-                                <td class="px-6 py-5 text-gray-400 text-xs">29 Apr<br>2026</td>
-                                <td class="px-6 py-5 text-center">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Lulus</span>
-                                </td>
-                            </tr>
+
+                            @endforelse
+
                         </tbody>
                     </table>
                 </div>
